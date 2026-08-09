@@ -624,7 +624,20 @@
     }
     cursor.remove();
   }
-  if(termBody&&cursor){run();}
+  if(termBody&&cursor){
+    // On mobile, the page can finish loading (and the typing can complete)
+    // before the user's eyes land on the hero. Give small screens a short
+    // grace delay after load so the animation plays while it's being watched.
+    // Desktop is unaffected — it runs immediately as before.
+    const isMobile=window.matchMedia('(max-width:640px)').matches;
+    if(isMobile&&!prefersReduced){
+      const start=()=>setTimeout(run,1400);
+      if(document.readyState==='complete'){start();}
+      else{window.addEventListener('load',start,{once:true});}
+    }else{
+      run();
+    }
+  }
 
   // ---- lens filter ----
   const hints={
