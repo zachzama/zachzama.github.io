@@ -478,7 +478,7 @@
       <span class="label">&nbsp;git log --all &nbsp;·&nbsp; show full 20-year history</span><span class="chev">⌄</span>
     </button>
     <div id="older-history"><div class="timeline">
-      <article class="entry" data-tags="infra lead data">
+      <article class="entry" data-tags="infra lead">
         <div class="entry-dot"></div>
         <div class="entry-top"><h3 class="entry-role">Senior Manager, Technical Program Management</h3><span class="entry-meta">12/2013 — 03/2020</span></div>
         <div class="entry-company"><span class="co-chip wf">WF</span><b>Wells Fargo</b> · Folsom (Remote), CA</div>
@@ -503,7 +503,7 @@
           <li data-tags="lead">Managed budget and organizational planning for enterprise infrastructure programs.</li>
         </ul>
       </article>
-      <article class="entry" data-tags="infra">
+      <article class="entry" data-tags="infra lead">
         <div class="entry-dot"></div>
         <div class="entry-top"><h3 class="entry-role">Manager, Technology Infrastructure</h3><span class="entry-meta">11/2008 — 11/2011</span></div>
         <div class="entry-company"><span class="co-chip wf">WF</span><b>Wells Fargo</b> · San Diego (Hybrid), CA</div>
@@ -513,13 +513,13 @@
           <li data-tags="infra lead">Following the Wachovia acquisition, drove IT and core systems consolidation to merge two of the largest financial institutions in the U.S.</li>
         </ul>
       </article>
-      <article class="entry" data-tags="infra">
+      <article class="entry" data-tags="infra lead">
         <div class="entry-dot"></div>
         <div class="entry-top"><h3 class="entry-role">Manager, Data Center Build Team</h3><span class="entry-meta">10/2007 — 11/2008</span></div>
         <div class="entry-company"><span class="co-chip wf">WF</span><b>Wells Fargo</b> · San Diego (Hybrid), CA</div>
         <p class="entry-desc">Led the Corporate Windows Infrastructure team on datacenter builds, production support incidents, and business-continuity operations.</p>
       </article>
-      <article class="entry" data-tags="infra">
+      <article class="entry" data-tags="infra lead">
         <div class="entry-dot"></div>
         <div class="entry-top"><h3 class="entry-role">Manager, Data Center Coordination</h3><span class="entry-meta">03/2006 — 10/2007</span></div>
         <div class="entry-company"><span class="co-chip wf">WF</span><b>Wells Fargo</b> · San Diego (Hybrid), CA</div>
@@ -669,9 +669,22 @@
     if(lens==='all'){body.classList.remove('filtering');entries.forEach(e=>{e.classList.remove('match');e.querySelectorAll('.entry-bullets li').forEach(li=>li.classList.remove('hit'));});projects.forEach(p=>p.classList.remove('match'));return;}
     body.classList.add('filtering','lens-'+lens);
     entries.forEach(e=>{
+      // An entry matches when it has something to show under this lens. Derived
+      // from its bullets rather than read off the entry, because the two were
+      // independent: an entry tagged only "infra" holding a bullet tagged
+      // "infra lead" greyed itself out under Leadership while that very bullet
+      // lit up inside it. Entries with no bullets have nothing to derive from,
+      // so those still fall back to their own tags.
+      const bullets=e.querySelectorAll('.entry-bullets li');
+      let anyHit=false;
+      bullets.forEach(li=>{
+        const lt=(li.dataset.tags||'').split(' ');
+        const hit=lt.includes(lens);
+        li.classList.toggle('hit',hit);
+        if(hit)anyHit=true;
+      });
       const tags=(e.dataset.tags||'').split(' ');
-      e.classList.toggle('match',tags.includes(lens));
-      e.querySelectorAll('.entry-bullets li').forEach(li=>{const lt=(li.dataset.tags||'').split(' ');li.classList.toggle('hit',lt.includes(lens));});
+      e.classList.toggle('match',bullets.length?anyHit:tags.includes(lens));
     });
     projects.forEach(p=>{const pt=(p.dataset.tags||'').split(' ');p.classList.toggle('match',pt.includes(lens));});
   }
