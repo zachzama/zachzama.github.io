@@ -628,6 +628,28 @@
   function makeLine(){const d=document.createElement('div');d.className='line';termBody.insertBefore(d,cursor);return d;}
   async function typeText(el,text,cls){el.innerHTML='<span class="prompt">❯ </span><span class="'+cls+'"></span>';const span=el.querySelector('.'+cls);for(let i=0;i<text.length;i++){span.textContent+=text[i];await wait(prefersReduced?0:24+Math.random()*30);}}
   function printOut(el,item){el.innerHTML='<span class="out">'+(item.html?item.html:escapeHtml(item.text))+'</span>';}
+  // Answers used to arrive whole, in one innerHTML write, so the commands typed
+  // at a readable pace and their output snapped in complete. This streams the
+  // answer too, a little quicker per character than the typing above, so a
+  // machine still reads as faster than the hand at the keyboard.
+  //
+  // Revealed through the text nodes rather than by appending to innerHTML: two
+  // of these answers carry markup, and growing a string one character at a time
+  // would put a half-written tag into the document on every frame. The markup is
+  // written once and the words fill in underneath it.
+  const OUT_MS=18;
+  async function typeOut(el,item){
+    printOut(el,item);
+    const host=el.querySelector('.out');
+    const walk=document.createTreeWalker(host,NodeFilter.SHOW_TEXT,null,false);
+    const parts=[];
+    for(let n=walk.nextNode();n;n=walk.nextNode())parts.push([n,n.nodeValue]);
+    parts.forEach(function(pair){pair[0].nodeValue='';});
+    for(const pair of parts){
+      const node=pair[0],full=pair[1];
+      for(let i=0;i<full.length;i++){node.nodeValue+=full[i];await wait(OUT_MS);}
+    }
+  }
   function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
   function wait(ms){return new Promise(r=>setTimeout(r,ms));}
   async function run(){
@@ -639,7 +661,9 @@
     for(const item of seq){
       const el=makeLine();
       if(item.type==='cmd'){await typeText(el,item.text,'cmd');await wait(230);}
-      else{printOut(el,item);await wait(400);}
+      // Shorter beat after an answer than before: the streaming now supplies
+      // the pause the flat 400ms was standing in for.
+      else{await typeOut(el,item);await wait(260);}
     }
     cursor.remove();
   }
