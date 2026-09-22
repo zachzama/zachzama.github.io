@@ -145,6 +145,16 @@
   .timeline::before{content:'';position:absolute;left:5px;top:6px;bottom:6px;width:1px;background:var(--hairline-strong);}
   .entry{position:relative;padding-bottom:46px;transition:opacity .4s ease,filter .4s ease;}
   .entry:last-child{padding-bottom:0;}
+  /* The two Zscaler roles are one continuous scope - same team, same remit,
+     one promotion - so the second sits on a short branch off the main rail
+     rather than reading as a separate posting. The dot moves with the entry
+     and a tick joins it back to the spine, which is the shape git log draws
+     for the same thing. */
+  .entry.entry-cont{margin-left:22px;}
+  .entry.entry-cont::before{content:'';position:absolute;left:-48px;top:11px;
+    width:16px;height:1px;background:var(--hairline-strong);}
+  .entry.entry-cont .entry-dot{width:9px;height:9px;top:7px;}
+
   .entry-dot{position:absolute;left:-32px;top:6px;width:11px;height:11px;border-radius:50%;background:var(--raised);border:2px solid var(--slate-light);transition:.3s;}
   .entry.active .entry-dot{border-color:var(--accent);background:var(--accent);box-shadow:0 0 0 4px var(--accent-tint);}
   .entry-top{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 20px;margin-bottom:6px;}
@@ -446,21 +456,19 @@
         <div class="entry-dot"></div>
         <div class="entry-top"><h3 class="entry-role">Director of Technical Program Management, Reliability Engineering <span class="active-tag">HEAD</span></h3><span class="entry-meta">09/2024 — Present</span></div>
         <div class="entry-company"><span class="co-chip zs">ZS</span><b>Zscaler</b> · San Jose (Folsom Remote), CA</div>
-        <p class="entry-desc">Leading Technical Program Management, shaping strategy and execution of Zscaler Private Service Edge (PSE) projects. PSE extends the Zscaler Cloud on-premise to improve latency, security, and data sovereignty.</p>
+        <p class="entry-desc">Leading Technical Program Management for <strong>Zscaler Private Service Edge (PSE)</strong>, which extends the Zscaler Cloud on-premise to improve latency, security, and data sovereignty. Own strategy and end-to-end delivery &mdash; deployment, operational readiness, problem management, and support &mdash; through a team of <strong>13 across global regions</strong>, scaling from <strong>~200 new projects in 2024 to ~300 in 2025</strong>.</p>
         <ul class="entry-bullets">
-          <li data-tags="infra lead">Directed end-to-end infrastructure deployment, operational readiness, problem management, and support for ~300 new projects in 2025, managing a team of 13 across global regions.</li>
           <li data-tags="infra lead">Owned technical partnership strategy with global infrastructure, service, and connectivity providers, influencing product roadmap decisions and cost reductions.</li>
           <li data-tags="data infra">Spearheaded an internal application architecting Snowflake data pipelines from Crown Jewel Applications, reducing MTTR and improving visibility for account and ops teams.</li>
           <li data-tags="data">Built Python ETL pipelines using Cloud Functions and BigQuery APIs to automate data sync across Salesforce, Asana, and Jira, improving team efficiency ~33%.</li>
           <li data-tags="data">Created executive dashboards and operational reporting in Looker Studio to improve decision-making and program visibility.</li>
         </ul>
       </article>
-      <article class="entry" data-tags="infra lead">
+      <article class="entry entry-cont" data-tags="infra lead">
         <div class="entry-dot"></div>
         <div class="entry-top"><h3 class="entry-role">Senior Manager of Technical Program Management, Reliability Engineering <span class="active-tag dim">PROMOTION ↑</span></h3><span class="entry-meta">08/2022 — 09/2024</span></div>
         <div class="entry-company"><span class="co-chip zs">ZS</span><b>Zscaler</b> · San Jose (Folsom Remote), CA</div>
         <ul class="entry-bullets">
-          <li data-tags="infra lead">Directed deployment, operational readiness, problem management, and support for ~200 new projects in 2024, managing a team of 10 across global regions.</li>
           <li data-tags="lead">Grew the team from 4 to 10, establishing agile frameworks on objectives and OKRs via Asana to deliver ongoing customer value.</li>
           <li data-tags="lead">Implemented a professional services framework to improve program delivery and customer satisfaction while increasing revenue growth.</li>
           <li data-tags="infra">Governed Federal Deployments and implemented IPv6 in the Federal Cloud while supporting a 250% increase in Fed PSEs.</li>
