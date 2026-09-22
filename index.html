@@ -250,6 +250,9 @@
   .project-title{font-family:var(--font-display);font-weight:560;font-size:19px;margin:8px 0 10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
   .proj-pill{font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--accent-deep);background:var(--accent-tint);border:1px solid rgba(91,84,230,.28);border-radius:100px;padding:2px 9px;}
   .project-desc{font-size:14.5px;color:var(--ink-soft);margin:0;}
+  .proj-links{display:flex;gap:18px;flex-wrap:wrap;margin:14px 0 0;font-family:var(--font-mono);font-size:12px;}
+  .proj-links a{color:var(--accent-deep);text-decoration:none;border-bottom:1px solid rgba(91,84,230,.3);padding-bottom:1px;}
+  .proj-links a:hover{border-bottom-color:var(--accent-deep);}
 
   /* footer grid */
   .footer-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;}@media(max-width:900px){.footer-grid{grid-template-columns:repeat(2,1fr);}}
@@ -360,6 +363,9 @@
     .alt{background:#fff!important;border:none!important;}
     .tag{background:#f4f4f2!important;border:1px solid #ddd!important;color:#333!important;}
     .project-card{background:#fff!important;border:1px solid #ddd!important;break-inside:avoid;}
+    /* On paper a link is invisible, so print the address after the words. */
+    .proj-links a{color:#333!important;border-bottom:none!important;}
+    .proj-links a::after{content:' (' attr(href) ')';color:#666;}
     .ed-chip{background:#eee!important;color:#333!important;border-color:#ccc!important;}
     .lang-dot.filled{background:#111!important;}
     .contact-cta{display:block!important;background:#fff!important;border:1px solid #ddd!important;box-shadow:none!important;padding:16px!important;min-height:0!important;}
@@ -404,7 +410,7 @@
         <p class="role">Director of Technical Program Management <span class="amp">·</span> Reliability Engineering</p>
         <div class="contact-row">
           <a href="https://linkedin.com/in/zachary-zamarripa-1599653" target="_blank" rel="noopener noreferrer">linkedin.com/in/zachary-zamarripa-1599653</a>
-          <a href="https://github.com/zachzama" target="_blank" rel="noopener noreferrer">github.com/zachzama <span class="ghtag">private</span></a>
+          <a href="https://github.com/zachzama" target="_blank" rel="noopener noreferrer">github.com/zachzama</a>
         </div>
         <p class="summary">Technical Program Management and Reliability Engineering leader specializing in infrastructure, platform operations, and site reliability within complex global enterprises. Focused on developing high-performing teams, fostering accountability and continuous improvement, and aligning technical execution with strategic business objectives across all levels of the organization.</p>
 
@@ -552,7 +558,7 @@
   <section id="projects"><div class="wrap">
     <div class="section-head reveal"><p class="eyebrow">ls initiatives/</p><h2 class="section-title">Projects</h2></div>
     <div class="project-grid reveal">
-      <div class="project-card feature" data-tags="infra data"><div class="project-date">2026</div><h3 class="project-title">FaultOne <span class="proj-pill">personal</span></h3><p class="project-desc">Single-file, dependency-free Python diagnostic that reads 58 sources of host state across physical link, kernel limits, transport behavior, and services, then ranks 203 findings by protocol layer, direction, and scope to name one root cause and its owner rather than a list of symptoms. Rules derived from analysis of 20+ monitoring platforms; verified with 1,999 tests, 416 seeded mutations, an equivalence harness, and ground-truth cases that pair a cause with its symptom to confirm the verdict names the cause. Runs in CI on Python 3.9–3.13 across Linux and Windows.</p></div>
+      <div class="project-card feature" data-tags="infra data"><div class="project-date">2026</div><h3 class="project-title">FaultOne <span class="proj-pill">personal</span></h3><p class="project-desc">Single-file, dependency-free Python diagnostic that reads 58 sources of host state across physical link, kernel limits, transport behavior, and services, then ranks 203 findings by protocol layer, direction, and scope to name one root cause and its owner rather than a list of symptoms. Rules derived from analysis of 20+ monitoring platforms; verified with 2,000 tests, 416 seeded mutations, an equivalence harness, and ground-truth cases that pair a cause with its symptom to confirm the verdict names the cause. Runs in CI on Python 3.9–3.13 across Linux and Windows.</p><p class="proj-links"><a href="https://zachzama.github.io/FaultOne/" target="_blank" rel="noopener noreferrer">read nine example reports</a><a href="https://github.com/zachzama/FaultOne" target="_blank" rel="noopener noreferrer">github.com/zachzama/FaultOne</a></p></div>
       <div class="project-card" data-tags="lead"><div class="project-date">2025 — Present</div><h3 class="project-title">Zscaler Managed Business Continuity</h3><p class="project-desc">GTM development, program management, and operations of a new product addressing a "CrowdStrike-like event" via an isolated Zscaler solution hosted on-premise with a vendor.</p></div>
       <div class="project-card" data-tags="lead"><div class="project-date">2023 — 2025</div><h3 class="project-title">Zscaler China Premium &amp; Premium Plus</h3><p class="project-desc">GTM development, program management, and operations of a new product in China providing premium connectivity and access to AI applications (ChatGPT, Gemini &amp; Claude).</p></div>
     </div>
