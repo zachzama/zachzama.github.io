@@ -396,10 +396,10 @@
     <div class="console reveal">
       <div class="console-bar">
         <span class="tl-dot r"></span><span class="tl-dot y"></span><span class="tl-dot g"></span>
-        <span class="console-path">~/career/zamarripa — status: <b>available</b></span>
+        <span class="console-path">~/career/zamarripa — status: <b>operational</b></span>
       </div>
       <div class="console-body">
-        <div class="status-line"><span class="d"></span> ALL SYSTEMS OPERATIONAL — OPEN TO NEW OPPORTUNITIES</div>
+        <div class="status-line"><span class="d"></span> ALL SYSTEMS OPERATIONAL — UPTIME 20+ YEARS</div>
         <h1 class="name">Zachary Zamarripa</h1>
         <p class="role">Director of Technical Program Management <span class="amp">·</span> Reliability Engineering</p>
         <div class="contact-row">
@@ -623,7 +623,7 @@
     {type:'cmd',text:'career --summary'},
     {type:'out',html:'<span class="big">20+ yrs</span> in infra, TPM &amp; engineering · <span class="hl">global</span> · lead teams across all timezones · teams up to <span class="hl">50+</span>'},
     {type:'cmd',text:'status'},
-    {type:'out',html:'<span class="hl">● open</span> — to new opportunities'}
+    {type:'out',html:'<span class="hl">● operational</span> — uptime 20+ yrs, no unplanned outages'}
   ];
   function makeLine(){const d=document.createElement('div');d.className='line';termBody.insertBefore(d,cursor);return d;}
   async function typeText(el,text,cls){el.innerHTML='<span class="prompt">❯ </span><span class="'+cls+'"></span>';const span=el.querySelector('.'+cls);for(let i=0;i<text.length;i++){span.textContent+=text[i];await wait(prefersReduced?0:24+Math.random()*30);}}
