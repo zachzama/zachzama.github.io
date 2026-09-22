@@ -265,15 +265,31 @@
   .proj-links a:hover{border-bottom-color:var(--accent-deep);}
 
   /* footer grid */
-  .footer-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;}@media(max-width:900px){.footer-grid{grid-template-columns:repeat(2,1fr);}}
+  .footer-grid{display:flex;flex-direction:column;gap:38px;}
+  /* Credentials run across rather than down: four entries in a narrow column
+     left three-quarters of the row empty beside them, and read top-to-bottom
+     they lose the newest-first ordering a reader expects. Across the full
+     width they are one band, newest on the left. */
+  .cred-row{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;align-items:start;}
+  .footer-row3{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;align-items:start;}
+  /* Education carries four entries against one or two in the others, and at an
+     equal quarter its titles wrapped to two lines each, making the column taller
+     still and leaving three-quarters of the row empty underneath. Widening it
+     unwraps the titles, which is most of the height; Languages needs the least
+     room of any of them. */@media(max-width:900px){.cred-row{grid-template-columns:repeat(2,1fr);}.footer-row3{grid-template-columns:repeat(2,1fr);}}
   .footer-col h3{font-family:var(--font-mono);font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--accent-deep);margin:0 0 16px;font-weight:500;}
-  .cred{margin-bottom:16px;display:flex;gap:10px;align-items:flex-start;}.cred-body{min-width:0;}.cred-name{font-size:14.5px;font-weight:600;}.cred-org{font-size:13px;color:var(--slate);}.cred-date{font-family:var(--font-mono);font-size:11.5px;color:var(--slate-light);}
+  .cred{margin-bottom:16px;display:flex;gap:10px;align-items:flex-start;}
+  /* Side by side in the band they need no gap underneath; the margin is what
+     separated them when they were stacked in a column. */
+  .cred-row .cred{margin-bottom:0;}.cred-body{min-width:0;}.cred-name{font-size:14.5px;font-weight:600;}.cred-org{font-size:13px;color:var(--slate);}.cred-date{font-family:var(--font-mono);font-size:11.5px;color:var(--slate-light);}
   .ed-chip{font-family:var(--font-mono);font-size:9.5px;font-weight:700;letter-spacing:.02em;width:24px;height:24px;flex:none;margin-top:2px;display:inline-flex;align-items:center;justify-content:center;border-radius:6px;border:1px solid var(--hairline-strong);background:var(--paper);color:var(--slate);}
   .ed-chip.zs{border-color:rgba(0,98,204,.35);background:#E4EFFB;color:#0A5AC0;}
   .ed-chip.g{border-color:rgba(66,133,244,.4);background:#EAF1FE;color:#3367D6;}
   .ed-chip.uc{border-color:rgba(39,116,174,.4);background:#E6F0F8;color:#2774AE;}
   .ed-chip.sd{border-color:rgba(166,25,46,.35);background:#F9E7EA;color:#A6192E;}
-  .lang-row{display:flex;justify-content:space-between;margin-bottom:12px;font-size:14px;}
+  .lang-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:14px;max-width:230px;}
+  /* Capped, because this sits in a column sized for the credential list beside
+     it: at full width the dots ended up an inch and a half from their label. */
   .lang-dots{display:flex;gap:4px;}.lang-dot{width:8px;height:8px;border-radius:50%;background:var(--hairline-strong);}.lang-dot.filled{background:var(--accent);}
   /* bottom contact CTA — split panel */
   #contact{padding:60px 0;}
@@ -576,12 +592,15 @@
   <section id="education" class="alt"><div class="wrap">
     <div class="footer-grid reveal">
       <div class="footer-col"><h3>Education &amp; Certs</h3>
+          <div class="cred-row">
         <div class="cred"><span class="ed-chip zs">ZS</span><div class="cred-body"><div class="cred-name">ZIA Certified Administrator</div><div class="cred-org">Zscaler</div><div class="cred-date">01/2023</div></div></div>
         <div class="cred"><span class="ed-chip g">G</span><div class="cred-body"><div class="cred-name">Google Program Mgmt Professional</div><div class="cred-org">Google / Coursera</div><div class="cred-date">08/2022</div></div></div>
         <div class="cred"><span class="ed-chip uc">UC</span><div class="cred-body"><div class="cred-name">Inclusive Leadership Program</div><div class="cred-org">UCLA Anderson</div><div class="cred-date">03/2011</div></div></div>
         <div class="cred"><span class="ed-chip sd">SD</span><div class="cred-body"><div class="cred-name">B.A., Economics</div><div class="cred-org">San Diego State University</div><div class="cred-date">2002 — 2005</div></div></div>
       </div>
-      <div class="footer-col"><h3>Awards</h3>
+        </div>
+        <div class="footer-row3">
+          <div class="footer-col"><h3>Awards</h3>
         <div class="cred"><div class="cred-body"><div class="cred-name">Wells Fargo Top Performer</div><div class="cred-date">2011 — 2015</div></div></div>
         <div class="cred"><div class="cred-body"><div class="cred-name">Latino Leadership Recipient</div><div class="cred-date">2011</div></div></div>
       </div>
@@ -593,7 +612,7 @@
         <div class="lang-row"><span>Spanish</span><span class="lang-dots"><span class="lang-dot filled"></span><span class="lang-dot filled"></span><span class="lang-dot"></span><span class="lang-dot"></span><span class="lang-dot"></span></span></div>
       </div>
     </div>
-  </div></section>
+        </div></div></section>
 
   <section id="contact"><div class="wrap">
     <div class="contact-cta reveal">
