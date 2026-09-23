@@ -409,6 +409,106 @@
     footer.page-footer{padding:12px 0 0;color:#888!important;}
     a[href]::after{content:'';}
   }
+
+  /* ---- decision panels ----
+     A role and its decision write-up are two panes of one track. Opening
+     shrinks the role to a peek and lets the decision take the space it gave
+     up, so the motion reads as a swap rather than a pop-out.
+
+     The peek clips; it does not reflow. .dswap-inner is pinned to its measured
+     pixel width before the pane shrinks, so the sentences keep their original
+     line breaks and slide out of view under a soft mask instead of rewrapping
+     into a narrow column that the eye then tries to read.
+
+     The pane's box is pushed 48px left of the entry (padding-left with an
+     equal negative margin) because the timeline dot sits at -32px and the
+     branch connector at -48px. Without that the clip would eat both and the
+     peek would float free of the rail it belongs to. */
+  .dswap{position:relative;}
+  .dswap-track{display:flex;align-items:stretch;}
+  .dswap-pane{min-width:0;}
+  .dswap-role{flex:0 0 calc(100% + 48px);padding-left:48px;margin-left:-48px;
+    transition:flex-basis .42s cubic-bezier(.22,.7,.24,1),opacity .3s ease,filter .3s ease;}
+  .dswap-inner{width:var(--pw,100%);}
+  .dpanel{flex:0 0 0;opacity:0;overflow:hidden;
+    transition:flex-basis .42s cubic-bezier(.22,.7,.24,1),opacity .3s ease;}
+
+  .dswap.open .dswap-role{flex:0 0 244px;opacity:.55;filter:grayscale(1);overflow:hidden;
+    cursor:pointer;
+    -webkit-mask-image:linear-gradient(to right,#000 0,#000 150px,rgba(0,0,0,.30) 205px,transparent 244px);
+    mask-image:linear-gradient(to right,#000 0,#000 150px,rgba(0,0,0,.30) 205px,transparent 244px);}
+  .dswap.open .dpanel{flex:1 1 auto;opacity:1;overflow:visible;
+    padding-left:38px;border-left:1px solid var(--hairline);
+    box-shadow:-30px 0 30px -30px rgba(20,22,28,.22);}
+  .dswap.open .dcue{opacity:0;pointer-events:none;}
+
+  /* The peek is one big back control. The role's own links and buttons go
+     inert underneath it so tabbing cannot land on text nobody can read. */
+  .dpeek-back{position:absolute;inset:0 auto 0 -48px;width:244px;z-index:3;
+    border:0;background:transparent;cursor:pointer;padding:0;}
+  .dswap:not(.open) .dpeek-back{display:none;}
+  .dpeek-back::after{content:"\2190  back to role";position:absolute;top:0;right:14px;
+    font-family:var(--font-mono);font-size:10.5px;letter-spacing:.06em;color:var(--slate);
+    background:var(--paper);border:1px solid var(--hairline);border-radius:100px;padding:3px 10px;
+    opacity:0;transition:opacity .22s ease;}
+  .dpeek-back:hover::after,.dpeek-back:focus-visible::after{opacity:1;}
+
+  /* the cue that opens it */
+  .dcue{margin-top:14px;display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 12px;
+    transition:opacity .18s ease;}
+  .dcue-btn{font-family:var(--font-mono);font-size:12px;letter-spacing:.02em;font-weight:600;
+    color:var(--accent-deep);background:none;border:0;border-bottom:1px solid rgba(91,84,230,.35);
+    padding:2px 0;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.2s;}
+  .dcue-btn:hover{border-bottom-color:var(--accent-deep);}
+  .dcue-arrow{transition:transform .2s ease;}
+  .dcue-btn:hover .dcue-arrow{transform:translateX(3px);}
+  .dcue-meta{font-family:var(--font-mono);font-size:11px;color:var(--slate-light);letter-spacing:.02em;}
+
+  /* the write-up */
+  .dpanel-crumb{display:flex;align-items:center;gap:9px;flex-wrap:wrap;
+    font-family:var(--font-mono);font-size:11.5px;color:var(--slate);
+    padding-bottom:14px;border-bottom:1px solid var(--hairline);margin-bottom:20px;}
+  .dpanel-back{border:0;background:none;cursor:pointer;color:var(--slate);font-size:15px;
+    line-height:1;padding:4px 6px;border-radius:6px;transition:.2s;}
+  .dpanel-back:hover{color:var(--ink);background:var(--raised);}
+  .dpanel-role{color:var(--ink-soft);}
+  .dpanel-sep{color:var(--slate-light);}
+  .dpanel-now{color:var(--ink);font-weight:600;}
+  .dpanel-nav{display:flex;align-items:center;gap:6px;margin-left:auto;}
+  .dpanel-nav .of{font-size:11px;color:var(--slate-light);letter-spacing:.06em;margin-right:4px;}
+  .dpanel-nav button{border:1px solid var(--hairline-strong);background:var(--paper);color:var(--ink-soft);
+    cursor:pointer;width:26px;height:26px;border-radius:7px;font-size:13px;line-height:1;transition:.2s;}
+  .dpanel-nav button:hover:not(:disabled){border-color:var(--ink-soft);color:var(--ink);}
+  .dpanel-nav button:disabled{opacity:.3;cursor:default;}
+  .dpanel-title{font-size:23px;font-weight:700;letter-spacing:-.01em;line-height:1.25;margin-bottom:6px;outline:none;}
+  .dpanel-meta{font-family:var(--font-mono);font-size:11.5px;color:var(--slate-light);
+    letter-spacing:.02em;margin-bottom:26px;}
+  .dpanel{counter-reset:dsec;}
+  .dsec{margin-bottom:22px;max-width:70ch;}
+  .dsec-last{margin-bottom:0;}
+  .dsec h4{font-family:var(--font-mono);font-size:11px;letter-spacing:.09em;color:var(--slate);
+    font-weight:600;margin-bottom:7px;}
+  .dsec h4::before{content:"0" counter(dsec) "\00a0\00a0";counter-increment:dsec;color:var(--slate-light);font-weight:400;}
+  .dsec p{font-size:15px;line-height:1.72;color:var(--ink-soft);}
+  .dswap.open .dsec{animation:dsec-rise .44s cubic-bezier(.22,.7,.24,1) backwards;
+    animation-delay:calc(.16s + var(--i) * .05s);}
+  @keyframes dsec-rise{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:none;}}
+
+  /* No room for a peek on a phone: the decision replaces the role outright. */
+  @media(max-width:860px){
+    .dswap.open .dswap-role{display:none;}
+    .dswap.open .dpanel{flex:1 1 100%;padding-left:0;border-left:0;box-shadow:none;}
+    /* The title sits directly beneath, so the "> Decision" tail is a third
+       wrapped line saying what the reader can already see. */
+    .dpanel-sep,.dpanel-now{display:none;}
+    .dpanel-title{font-size:20px;}
+  }
+  @media print{
+    .dcue,.dpeek-back,.dpanel{display:none!important;}
+    .dswap-role{flex:1 1 auto!important;opacity:1!important;filter:none!important;
+      mask-image:none!important;-webkit-mask-image:none!important;}
+    .dswap-inner{width:auto!important;}
+  }
 </style>
 </head>
 <body>
@@ -468,7 +568,7 @@
   <section id="experience"><div class="wrap">
     <div class="section-head reveal"><p class="eyebrow">git log --oneline</p><h2 class="section-title">Experience</h2></div>
     <div class="timeline">
-      <article class="entry active" data-tags="infra lead data">
+      <div class="dswap" data-decision="china-premium"><div class="dswap-track"><div class="dswap-pane dswap-role"><div class="dswap-inner"><article class="entry active" data-tags="infra lead data">
         <div class="entry-dot"></div>
         <div class="entry-top"><h3 class="entry-role">Director of Technical Program Management, Reliability Engineering <span class="active-tag">HEAD</span></h3><span class="entry-meta">09/2024 — Present</span></div>
         <div class="entry-company"><span class="co-chip zs">ZS</span><b>Zscaler</b> · San Jose (Folsom Remote), CA</div>
@@ -479,8 +579,8 @@
           <li data-tags="data">Built Python ETL pipelines using Cloud Functions and BigQuery APIs to automate data sync across Salesforce, Asana, and Jira, cutting manual reporting and repetitive work ~33%.</li>
           <li data-tags="data">Created executive dashboards and operational reporting in Looker Studio to improve decision-making and program visibility.</li>
         </ul>
-      </article>
-      <article class="entry entry-cont" data-tags="infra lead">
+      <p class="dcue" data-tags="infra lead data"><button type="button" class="dcue-btn" data-open="china-premium" aria-expanded="false" aria-controls="decision-china-premium"><span>Getting the unreachable internet into China</span><span class="dcue-arrow" aria-hidden="true">&rarr;</span></button><span class="dcue-meta">Decision · 2023 to 2025 · 2 min</span></p></article></div></div><article class="dswap-pane dpanel" id="decision-china-premium" role="region" aria-label="Decision write-up" hidden><div class="dpanel-crumb"><button type="button" class="dpanel-back" data-close aria-label="Back to role">&larr;</button><span class="co-chip zs">ZS</span><span class="dpanel-role">Director of Technical Program Management</span><span class="dpanel-sep">&rsaquo;</span><span class="dpanel-now">Decision</span><span class="dpanel-nav"><span class="of">1 / 3</span><button type="button" data-step="-1" aria-label="Previous decision">&larr;</button><button type="button" data-step="1" aria-label="Next decision">&rarr;</button></span></div><h3 class="dpanel-title" tabindex="-1">Getting the unreachable internet into China</h3><p class="dpanel-meta">Decision · 2023 to 2025 · 2 min</p><div class="dsec" style="--i:0"><h4>CONTEXT</h4><p>Multinationals with employees in mainland China couldn&#x27;t reliably reach the services the rest of their company ran on. Not just AI tools, but Google, SaaS platforms, and the everyday internet. The usual workarounds were expensive hardware, private circuits, or accepting a bad experience. Nobody had solved it as a service.</p></div><div class="dsec" style="--i:1"><h4>OPTIONS</h4><p>Serve China from outside the country and accept the performance hit. Build our own in-country presence. Or find a partner whose network already had what we needed and extend our platform over it.</p></div><div class="dsec" style="--i:2"><h4>DECISION</h4><p>Partner, and treat partner selection as the product decision rather than a procurement exercise. Reliability, service, and willingness to build with us mattered more than price, because the partner&#x27;s network would be the product. My role sat between Engineering and Product, which meant the job was less about picking from options than about keeping everyone in &quot;what if&quot; long enough to find one that worked.</p></div><div class="dsec" style="--i:3"><h4>OUTCOME</h4><p>China Premium and Premium Plus shipped as products. Publicly, customers saw application access improve by about 6x and latency drop 40 to 60%, with an SLA covering availability, MTTR, latency, and packet loss.</p></div><div class="dsec dsec-last" style="--i:4"><h4>WHAT I&#x27;D DO DIFFERENTLY</h4><p>It&#x27;s hard to plan a trail when nobody has walked it. What I&#x27;d change isn&#x27;t the route, it&#x27;s the pace at the start. I&#x27;d spend a few weeks on exploration that might have gone nowhere, and I&#x27;d put someone fluent in Mandarin on the team early. Things always come across differently through translation. We learned what we needed over time, but the right hire might have gotten us there sooner, or somewhere better.</p></div></article></div></div>
+      <div class="dswap" data-decision="automation-over-headcount"><div class="dswap-track"><div class="dswap-pane dswap-role"><div class="dswap-inner"><article class="entry entry-cont" data-tags="infra lead">
         <div class="entry-dot"></div>
         <div class="entry-top"><h3 class="entry-role">Senior Manager of Technical Program Management, Reliability Engineering <span class="active-tag dim">PROMOTION ↑</span></h3><span class="entry-meta">08/2022 — 09/2024</span></div>
         <div class="entry-company"><span class="co-chip zs">ZS</span><b>Zscaler</b> · San Jose (Folsom Remote), CA</div>
@@ -489,8 +589,8 @@
           <li data-tags="lead">Implemented a professional services framework to improve program delivery and customer satisfaction while increasing revenue growth.</li>
           <li data-tags="infra">Governed Federal Deployments and implemented IPv6 in the Federal Cloud while supporting a 250% increase in Fed PSEs.</li>
         </ul>
-      </article>
-      <article class="entry" data-tags="infra lead">
+      <p class="dcue" data-tags="infra lead"><button type="button" class="dcue-btn" data-open="automation-over-headcount" aria-expanded="false" aria-controls="decision-automation-over-headcount"><span>Why we didn&#x27;t ask for more people</span><span class="dcue-arrow" aria-hidden="true">&rarr;</span></button><span class="dcue-meta">Decision · 2024 · 2 min</span></p></article></div></div><article class="dswap-pane dpanel" id="decision-automation-over-headcount" role="region" aria-label="Decision write-up" hidden><div class="dpanel-crumb"><button type="button" class="dpanel-back" data-close aria-label="Back to role">&larr;</button><span class="co-chip zs">ZS</span><span class="dpanel-role">Senior Manager of Technical Program Management</span><span class="dpanel-sep">&rsaquo;</span><span class="dpanel-now">Decision</span><span class="dpanel-nav"><span class="of">2 / 3</span><button type="button" data-step="-1" aria-label="Previous decision">&larr;</button><button type="button" data-step="1" aria-label="Next decision">&rarr;</button></span></div><h3 class="dpanel-title" tabindex="-1">Why we didn&#x27;t ask for more people</h3><p class="dpanel-meta">Decision · 2024 · 2 min</p><div class="dsec" style="--i:0"><h4>CONTEXT</h4><p>Provisioning and project management were full of manual steps: data re-entered between systems, status chased by hand, errors that surfaced late. Volume was climbing toward 200 projects a year and the work wasn&#x27;t going to fit.</p></div><div class="dsec" style="--i:1"><h4>OPTIONS</h4><p>Ask for more headcount. Push back on intake and take on less. Or keep working manually and accept slower delivery.</p></div><div class="dsec" style="--i:2"><h4>DECISION</h4><p>Automate the seam between provisioning and project management instead. We built integrations between our systems and the project management tools, cut tool sprawl, and removed the handoffs where errors lived. That was my call, and it meant absorbing the build cost before the payoff showed up.</p></div><div class="dsec" style="--i:3"><h4>OUTCOME</h4><p>Faster delivery, roughly 33% less manual effort, better collaboration across teams, and enough capacity to take on work in other areas. The following year the same organization handled ~300 projects.</p></div><div class="dsec dsec-last" style="--i:4"><h4>WHAT I&#x27;D DO DIFFERENTLY</h4><p>We built it all without AI. With the tools I use now, we would have gotten there months sooner.</p></div></article></div></div>
+      <div class="dswap" data-decision="platform-wellness"><div class="dswap-track"><div class="dswap-pane dswap-role"><div class="dswap-inner"><article class="entry" data-tags="infra lead">
         <div class="entry-dot"></div>
         <div class="entry-top"><h3 class="entry-role">VP, Lead of Program Management / Strategy &amp; Operations <span class="active-tag wf">GROUP LEAD</span></h3><span class="entry-meta">03/2020 — 08/2022</span></div>
         <div class="entry-company"><span class="co-chip wf">WF</span><b>Wells Fargo</b> · Folsom (Remote), CA</div>
@@ -501,7 +601,7 @@
           <li data-tags="lead data">Drove code review standards and policy improvement across compliance and permit-to-operate programs via GitHub and UDeploy.</li>
           <li data-tags="infra">Laid the groundwork for a major transition to hybrid and multi-cloud infrastructure to modernize legacy data centers.</li>
         </ul>
-      </article>
+      <p class="dcue" data-tags="infra lead"><button type="button" class="dcue-btn" data-open="platform-wellness" aria-expanded="false" aria-controls="decision-platform-wellness"><span>400 applications, 400 ways of working</span><span class="dcue-arrow" aria-hidden="true">&rarr;</span></button><span class="dcue-meta">Decision · 2020 to 2022 · 3 min</span></p></article></div></div><article class="dswap-pane dpanel" id="decision-platform-wellness" role="region" aria-label="Decision write-up" hidden><div class="dpanel-crumb"><button type="button" class="dpanel-back" data-close aria-label="Back to role">&larr;</button><span class="co-chip wf">WF</span><span class="dpanel-role">VP, Program Management / Strategy &amp; Operations</span><span class="dpanel-sep">&rsaquo;</span><span class="dpanel-now">Decision</span><span class="dpanel-nav"><span class="of">3 / 3</span><button type="button" data-step="-1" aria-label="Previous decision">&larr;</button><button type="button" data-step="1" aria-label="Next decision">&rarr;</button></span></div><h3 class="dpanel-title" tabindex="-1">400 applications, 400 ways of working</h3><p class="dpanel-meta">Decision · 2020 to 2022 · 3 min</p><div class="dsec" style="--i:0"><h4>CONTEXT</h4><p>Hundreds of applications across three CIO organizations, some early in cloud adoption, each living in its own ecosystem with its own tooling, reporting, and standards. What sat underneath ranged from home grown tooling to one of the largest Splunk environments in existence. Fragmentation like that shows up as cost, headcount, and whether anyone can support a system they didn&#x27;t build.</p></div><div class="dsec" style="--i:1"><h4>OPTIONS</h4><p>Let each line of business keep its own stack and absorb the duplication. Mandate one standard from the center. Or agree on a framework first, then work out together what it means in each line of business.</p></div><div class="dsec" style="--i:2"><h4>DECISION</h4><p>Start with the framework, not the tools. We built the Platform Wellness Program on NIST and standardized around prevention, detection, response, and recovery. That gave every lead across the major lines of business something to agree on before anyone argued about products. What works in Lending might not work in Retail or Corporate, so the framework set the bar and each organization worked out how to meet it.</p></div><div class="dsec" style="--i:3"><h4>OUTCOME</h4><p>Site Reliability Engineering and Platform Operations stood up as new functions across 400 applications, observability advanced on Splunk, AppDynamics, Elastic, and Kafka, and availability aligned at 99.6%.</p></div><div class="dsec dsec-last" style="--i:4"><h4>WHAT I&#x27;D DO DIFFERENTLY</h4><p>What I underestimated was cross-functional partnership. I believed a good decision would speak for itself, and sometimes it doesn&#x27;t. Sharing a sandbox means occasionally taking less sand, or building a different castle than the one you planned. I&#x27;d invest in those relationships earlier, before there&#x27;s anything to negotiate.</p></div></article></div></div>
     </div>
 
     <button id="history-toggle" type="button" aria-expanded="false" aria-controls="older-history">
@@ -770,6 +870,110 @@
   // history toggle
   const tgl=document.getElementById('history-toggle'),older=document.getElementById('older-history');
   if(tgl&&older){tgl.addEventListener('click',()=>{const o=older.classList.toggle('open');tgl.classList.toggle('open',o);tgl.setAttribute('aria-expanded',o);tgl.querySelector('.label').innerHTML=o?'&nbsp;git log · collapse history':'&nbsp;git log --all &nbsp;·&nbsp; show full 20-year history';});}
+
+  // ---- decision panels ----
+  // Each role owns its own pair of panes, so the write-up that opens is always
+  // the one attached to the role that was clicked. An earlier attempt shared a
+  // single sticky panel across the timeline and it anchored to the top of the
+  // list no matter which role you asked about.
+  (function(){
+    const swaps=[...document.querySelectorAll('.dswap')];
+    if(!swaps.length)return;
+    let openIdx=-1;
+
+    function pin(sw){
+      // Measure before shrinking. Pinning the inner width in pixels is what
+      // makes the peek clip instead of rewrap.
+      const inner=sw.querySelector('.dswap-inner');
+      inner.style.setProperty('--pw',inner.getBoundingClientRect().width+'px');
+    }
+    function unpin(sw){
+      const inner=sw.querySelector('.dswap-inner');
+      setTimeout(()=>inner.style.removeProperty('--pw'),460);
+    }
+
+    function close(i,{restoreFocus=true}={}){
+      const sw=swaps[i];if(!sw||!sw.classList.contains('open'))return;
+      const panel=sw.querySelector('.dpanel'),cue=sw.querySelector('.dcue-btn');
+      sw.classList.remove('open');
+      sw.querySelector('.dswap-inner').removeAttribute('inert');
+      cue.setAttribute('aria-expanded','false');
+      unpin(sw);
+      setTimeout(()=>{if(!sw.classList.contains('open'))panel.hidden=true;},460);
+      if(openIdx===i)openIdx=-1;
+      if(restoreFocus)cue.focus();
+      setHash(null);
+    }
+
+    function open(i,{focus=true,scroll=false}={}){
+      const sw=swaps[i];if(!sw)return;
+      if(openIdx>-1&&openIdx!==i)close(openIdx,{restoreFocus:false});
+      const panel=sw.querySelector('.dpanel'),cue=sw.querySelector('.dcue-btn');
+      panel.hidden=false;
+      pin(sw);
+      // Let the browser see the unhidden panel at width zero before it grows,
+      // otherwise it arrives already open and the swap never animates.
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{
+        sw.classList.add('open');
+        sw.querySelector('.dswap-inner').setAttribute('inert','');
+      }));
+      cue.setAttribute('aria-expanded','true');
+      openIdx=i;
+      setHash(sw.dataset.decision);
+      if(scroll){
+        const y=sw.getBoundingClientRect().top+window.scrollY-96;
+        window.scrollTo({top:y,behavior:prefersReduced?'auto':'smooth'});
+      }
+      if(focus)setTimeout(()=>panel.querySelector('.dpanel-title').focus({preventScroll:true}),prefersReduced?0:120);
+    }
+
+    function setHash(slug){
+      // replaceState, not a hash assignment: the link stays shareable without
+      // stacking a history entry on every open and close.
+      const url=slug?'#decision/'+slug:location.pathname+location.search;
+      history.replaceState(null,'',url);
+    }
+
+    swaps.forEach((sw,i)=>{
+      sw.querySelector('.dcue-btn').addEventListener('click',()=>open(i));
+      sw.querySelector('.dpanel-back').addEventListener('click',()=>close(i));
+      // The peek is the other way back. It is a real button covering the pane
+      // rather than a click handler on the pane itself, which used to catch the
+      // opening click as it bubbled and shut the panel in the same gesture.
+      const peek=document.createElement('button');
+      peek.type='button';peek.className='dpeek-back';
+      peek.setAttribute('aria-label','Back to '+sw.querySelector('.dpanel-role').textContent.trim());
+      peek.addEventListener('click',()=>close(i));
+      sw.querySelector('.dswap-role').appendChild(peek);
+      sw.querySelectorAll('.dpanel-nav button[data-step]').forEach(b=>{
+        b.addEventListener('click',()=>{
+          const t=i+parseInt(b.dataset.step,10);
+          if(t<0||t>=swaps.length)return;
+          open(t,{scroll:true});
+        });
+        const t=i+parseInt(b.dataset.step,10);
+        if(t<0||t>=swaps.length)b.disabled=true;
+      });
+    });
+
+    document.addEventListener('keydown',e=>{
+      if(e.key==='Escape'&&openIdx>-1)close(openIdx);
+    });
+
+    // A lens that hides a role should not leave its write-up open on screen.
+    document.querySelectorAll('.lens-btn').forEach(b=>b.addEventListener('click',()=>{
+      if(openIdx<0)return;
+      const lens=b.dataset.lens;
+      const tags=(swaps[openIdx].querySelector('.dcue').dataset.tags||'').split(' ');
+      if(lens!=='all'&&!tags.includes(lens))close(openIdx,{restoreFocus:false});
+    }));
+
+    const m=location.hash.match(/^#decision\/(.+)$/);
+    if(m){
+      const i=swaps.findIndex(s=>s.dataset.decision===m[1]);
+      if(i>-1)window.addEventListener('load',()=>open(i,{scroll:true,focus:false}),{once:true});
+    }
+  })();
 </script>
 </body>
 </html>
