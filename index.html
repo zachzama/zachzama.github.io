@@ -441,6 +441,9 @@
     padding-left:38px;border-left:1px solid var(--hairline);
     box-shadow:-30px 0 30px -30px rgba(20,22,28,.22);}
   .dswap.open .dcue{opacity:0;pointer-events:none;}
+  /* Used for one forced reflow while stepping between decisions, so the
+     outgoing panel collapses in a single frame instead of over 420ms. */
+  .dswap-instant,.dswap-instant *{transition:none!important;animation:none!important;}
 
   /* The peek is one big back control. The role's own links and buttons go
      inert underneath it so tabbing cannot land on text nobody can read. */
@@ -892,22 +895,51 @@
       setTimeout(()=>inner.style.removeProperty('--pw'),460);
     }
 
-    function close(i,{restoreFocus=true}={}){
+    function close(i,{restoreFocus=true,instant=false}={}){
       const sw=swaps[i];if(!sw||!sw.classList.contains('open'))return;
-      const panel=sw.querySelector('.dpanel'),cue=sw.querySelector('.dcue-btn');
+      const panel=sw.querySelector('.dpanel'),cue=sw.querySelector('.dcue-btn'),
+            inner=sw.querySelector('.dswap-inner');
+      if(instant)sw.classList.add('dswap-instant');
       sw.classList.remove('open');
-      sw.querySelector('.dswap-inner').removeAttribute('inert');
+      inner.removeAttribute('inert');
       cue.setAttribute('aria-expanded','false');
-      unpin(sw);
-      setTimeout(()=>{if(!sw.classList.contains('open'))panel.hidden=true;},460);
       if(openIdx===i)openIdx=-1;
+      if(instant){
+        // Settle the collapse synchronously. Stepping to another decision has
+        // to measure where the next role comes to rest, and a measurement taken
+        // while this one is still shrinking reads the position it is leaving
+        // rather than the one it is going to, which on a tall write-up lands
+        // most of a panel's height further down the page.
+        panel.hidden=true;
+        inner.style.removeProperty('--pw');
+        void sw.offsetHeight;
+        sw.classList.remove('dswap-instant');
+      }else{
+        unpin(sw);
+        setTimeout(()=>{if(!sw.classList.contains('open'))panel.hidden=true;},460);
+      }
       if(restoreFocus)cue.focus();
       setHash(null);
     }
 
+    function navH(){const n=document.querySelector('.topnav');return n?n.getBoundingClientRect().height:0;}
+    function reveal(sw,force){
+      // A write-up runs about twice the height of the role it replaces, so
+      // opening one in place leaves its last sections below the fold. Height is
+      // not final until the pane has finished widening, so measure after that,
+      // then bring the top of it up under the nav - but only when something is
+      // actually cut off, so a panel already in full view does not twitch.
+      const settle=prefersReduced?0:460;
+      setTimeout(()=>{
+        const r=sw.getBoundingClientRect(),top=navH()+16;
+        if(!force&&r.top>=top&&r.bottom<=window.innerHeight)return;
+        window.scrollTo({top:r.top+window.scrollY-top,behavior:prefersReduced?'auto':'smooth'});
+      },settle);
+    }
+
     function open(i,{focus=true,scroll=false}={}){
       const sw=swaps[i];if(!sw)return;
-      if(openIdx>-1&&openIdx!==i)close(openIdx,{restoreFocus:false});
+      if(openIdx>-1&&openIdx!==i)close(openIdx,{restoreFocus:false,instant:true});
       const panel=sw.querySelector('.dpanel'),cue=sw.querySelector('.dcue-btn');
       panel.hidden=false;
       pin(sw);
@@ -916,14 +948,11 @@
       requestAnimationFrame(()=>requestAnimationFrame(()=>{
         sw.classList.add('open');
         sw.querySelector('.dswap-inner').setAttribute('inert','');
+        reveal(sw,scroll);
       }));
       cue.setAttribute('aria-expanded','true');
       openIdx=i;
       setHash(sw.dataset.decision);
-      if(scroll){
-        const y=sw.getBoundingClientRect().top+window.scrollY-96;
-        window.scrollTo({top:y,behavior:prefersReduced?'auto':'smooth'});
-      }
       if(focus)setTimeout(()=>panel.querySelector('.dpanel-title').focus({preventScroll:true}),prefersReduced?0:120);
     }
 
