@@ -115,6 +115,10 @@
   .prompt{color:var(--prompt);}
   .cmd{color:var(--term-ink);}
   .out{color:var(--term-dim);}
+  /* Green is status here, as it is everywhere else on the page, and nothing
+     else. It used to also sit on two phrases in the career line, which put
+     weight on one phrase and one of three numbers with no rule behind either.
+     Figures take .big, prose stays dim. */
   .out .hl{color:#8FE3C2;}.out .big{color:#fff;}
   .cursor{display:inline-block;width:9px;height:16px;background:var(--prompt);vertical-align:-3px;margin-left:2px;animation:blink 1s steps(1) infinite;}
   @keyframes blink{50%{opacity:0;}}
@@ -607,7 +611,7 @@
           <a href="https://linkedin.com/in/zachary-zamarripa-1599653" target="_blank" rel="noopener noreferrer">linkedin.com/in/zachary-zamarripa-1599653</a>
           <a href="https://github.com/zachzama" target="_blank" rel="noopener noreferrer">github.com/zachzama</a>
         </div>
-        <p class="summary">Technical Program Management and Reliability Engineering leader with twenty years in infrastructure, from building data centers at Wells Fargo to leading ~300 global infrastructure projects a year at Zscaler. Data center and partner programs, reliability, and observability at global scale: SRE and platform operations across 400 applications, and delivery through colocation and hosting providers worldwide. <strong>Systems that stay up, reporting that tells the truth, and teams that grow.</strong></p>
+        <p class="summary">Technical Program Management and Reliability Engineering leader with twenty years in infrastructure, from building data centers at Wells Fargo to leading ~300 global infrastructure projects a year at Zscaler. Data center and partner programs, reliability, and observability at global scale: SRE and platform operations across 400 applications, and delivery through colocation and hosting providers worldwide. Systems that stay up, reporting that tells the truth, and teams that grow.</p>
 
         <div class="term-cli">
           <div class="term-body" id="term-body"><span class="cursor" id="cursor"></span></div>
@@ -841,7 +845,7 @@ connected inbound
     {type:'cmd',text:'cat role.txt'},
     {type:'out',text:'Data center programs & architecture · Reliability engineering & SRE · Observability · Capacity & partner programs · Infrastructure delivery at global scale'},
     {type:'cmd',text:'career --summary'},
-    {type:'out',html:'<span class="big">20+ yrs</span> in infrastructure · data center build team to <span class="hl">global data center strategy</span> · ~300 projects a year · teams up to <span class="hl">50+</span> across every timezone'},
+    {type:'out',html:'<span class="big">20+ yrs</span> in infrastructure · data center build team to global data center strategy · <span class="big">~300</span> projects a year · teams up to <span class="big">50+</span> across every timezone'},
     {type:'cmd',text:'status'},
     {type:'out',html:'<span class="hl">● operational</span> · uptime 20+ yrs, no unplanned outages'}
   ];
