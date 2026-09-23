@@ -145,69 +145,6 @@
   .timeline::before{content:'';position:absolute;left:5px;top:6px;bottom:6px;width:1px;background:var(--hairline-strong);}
   .entry{position:relative;padding-bottom:46px;transition:opacity .4s ease,filter .4s ease;}
   .entry:last-child{padding-bottom:0;}
-
-  /* ---- Decision panels -------------------------------------------------
-     Master-detail rather than an accordion: opening a decision must not add
-     page height, or everything below it moves under the reader's cursor.
-     The section's own .wrap becomes the grid, so nothing is re-parented and
-     the expander for the older roles stays where it was. */
-  #experience > .wrap{display:grid;grid-template-columns:minmax(0,1fr);
-    column-gap:0;align-items:start;transition:grid-template-columns .22s ease-out,column-gap .22s ease-out;}
-  #experience > .wrap > .section-head{grid-column:1 / -1;}
-  body.decision-open #experience > .wrap{grid-template-columns:minmax(0,40fr) minmax(0,60fr);column-gap:34px;}
-  body.decision-open #experience > .wrap > .timeline,
-  body.decision-open #experience > .wrap > #older-history{grid-column:1;}
-
-  .decision-cue{margin:14px 0 0;display:flex;flex-direction:column;gap:3px;align-items:flex-start;
-    transition:opacity .3s ease;}
-  .decision-btn{display:inline-flex;align-items:center;gap:8px;cursor:pointer;
-    font-family:var(--font-mono);font-size:12.5px;color:var(--accent-deep);
-    background:var(--accent-tint);border:0;border-left:2px solid var(--accent);border-radius:0;
-    padding:7px 12px;text-align:left;transition:border-color .18s ease,background .18s ease;}
-  .decision-btn:hover,.decision-btn:focus-visible{background:#E4E2FA;border-left-color:var(--accent-deep);}
-  .decision-btn:hover .decision-btn-arrow,
-  .decision-btn:focus-visible .decision-btn-arrow{transform:translateX(2px);}
-  .decision-btn-arrow{transition:transform .18s ease;}
-  .decision-btn[aria-expanded="true"]{background:#DDDAF7;border-left-color:var(--accent-deep);}
-  .decision-meta{font-family:var(--font-mono);font-size:10.5px;color:var(--slate-light);padding-left:14px;}
-
-  .decision-panel{grid-column:2;grid-row:2 / span 2;position:sticky;top:20px;
-    max-height:calc(100vh - 40px);display:flex;flex-direction:column;
-    background:var(--term-bg);color:var(--term-ink);border-left:2px solid var(--prompt);
-    opacity:0;transition:opacity .18s ease-out;}
-  body.decision-open .decision-panel{opacity:1;}
-  .decision-panel[hidden]{display:none;}
-  .decision-panel-bar{display:flex;align-items:center;justify-content:space-between;
-    padding:13px 20px;border-bottom:1px solid var(--term-line);flex:0 0 auto;}
-  .decision-eyebrow{font-family:var(--font-mono);font-size:11.5px;color:var(--prompt);letter-spacing:.04em;}
-  .decision-close{background:none;border:0;color:var(--term-dim);font-size:22px;line-height:1;
-    cursor:pointer;padding:0 4px;}
-  .decision-close:hover,.decision-close:focus-visible{color:var(--term-ink);}
-  .decision-scroll{overflow-y:auto;flex:1 1 auto;padding:22px 26px 28px;}
-  .decision-title{font-family:var(--font-display);font-size:20px;font-weight:560;margin:0 0 4px;
-    color:#fff;outline:none;}
-  .decision-sub{font-family:var(--font-mono);font-size:11px;color:var(--term-dim);margin:0 0 20px;}
-  .dsec{border-left:1px solid var(--term-line);padding-left:16px;margin-bottom:18px;border-radius:0;}
-  .dsec h4{font-family:var(--font-mono);font-size:11px;letter-spacing:.09em;color:var(--term-dim);
-    margin:0 0 6px;font-weight:500;}
-  .dsec p{margin:0;font-size:14.5px;line-height:1.65;color:var(--term-ink);}
-  /* The closing section carries the judgment, so it is the one with the accent. */
-  .dsec-last{border-left-color:var(--prompt);}
-  .dsec-last h4{color:var(--prompt);}
-
-  @media(max-width:900px){
-    body.decision-open #experience > .wrap{grid-template-columns:minmax(0,1fr);column-gap:0;}
-    .decision-panel{position:fixed;inset:0;max-height:none;z-index:70;border-left:0;
-      grid-column:1;grid-row:auto;}
-    body.decision-open{overflow:hidden;}
-  }
-
-  @media(prefers-reduced-motion:reduce){
-    #experience > .wrap,.decision-panel,.decision-btn,.decision-btn-arrow,.decision-cue{transition:none;}
-  }
-
-  @media print{ .decision-cue,.decision-panel{display:none!important;} }
-
   /* The two Zscaler roles are one continuous scope - same team, same remit,
      one promotion - so the second sits on a short branch off the main rail
      rather than reading as a separate posting. The dot moves with the entry
@@ -542,9 +479,7 @@
           <li data-tags="data">Built Python ETL pipelines using Cloud Functions and BigQuery APIs to automate data sync across Salesforce, Asana, and Jira, cutting manual reporting and repetitive work ~33%.</li>
           <li data-tags="data">Created executive dashboards and operational reporting in Looker Studio to improve decision-making and program visibility.</li>
         </ul>
-      
-          <p class="decision-cue" data-tags="infra lead data"><button type="button" class="decision-btn" data-decision="china-premium" aria-haspopup="dialog" aria-controls="decision-panel" aria-expanded="false"><span class="decision-btn-label">Getting the unreachable internet into China</span><span class="decision-btn-arrow" aria-hidden="true">&rarr;</span></button><span class="decision-meta">Decision · 2023 to 2025 · 2 min</span></p>
-        </article>
+      </article>
       <article class="entry entry-cont" data-tags="infra lead">
         <div class="entry-dot"></div>
         <div class="entry-top"><h3 class="entry-role">Senior Manager of Technical Program Management, Reliability Engineering <span class="active-tag dim">PROMOTION ↑</span></h3><span class="entry-meta">08/2022 — 09/2024</span></div>
@@ -554,9 +489,7 @@
           <li data-tags="lead">Implemented a professional services framework to improve program delivery and customer satisfaction while increasing revenue growth.</li>
           <li data-tags="infra">Governed Federal Deployments and implemented IPv6 in the Federal Cloud while supporting a 250% increase in Fed PSEs.</li>
         </ul>
-      
-          <p class="decision-cue" data-tags="infra lead"><button type="button" class="decision-btn" data-decision="automation-over-headcount" aria-haspopup="dialog" aria-controls="decision-panel" aria-expanded="false"><span class="decision-btn-label">Why we didn&#x27;t ask for more people</span><span class="decision-btn-arrow" aria-hidden="true">&rarr;</span></button><span class="decision-meta">Decision · 2024 · 2 min</span></p>
-        </article>
+      </article>
       <article class="entry" data-tags="infra lead">
         <div class="entry-dot"></div>
         <div class="entry-top"><h3 class="entry-role">VP, Lead of Program Management / Strategy &amp; Operations <span class="active-tag wf">GROUP LEAD</span></h3><span class="entry-meta">03/2020 — 08/2022</span></div>
@@ -568,9 +501,7 @@
           <li data-tags="lead data">Drove code review standards and policy improvement across compliance and permit-to-operate programs via GitHub and UDeploy.</li>
           <li data-tags="infra">Laid the groundwork for a major transition to hybrid and multi-cloud infrastructure to modernize legacy data centers.</li>
         </ul>
-      
-          <p class="decision-cue" data-tags="infra lead"><button type="button" class="decision-btn" data-decision="platform-wellness" aria-haspopup="dialog" aria-controls="decision-panel" aria-expanded="false"><span class="decision-btn-label">400 applications, 400 ways of working</span><span class="decision-btn-arrow" aria-hidden="true">&rarr;</span></button><span class="decision-meta">Decision · 2020 to 2022 · 3 min</span></p>
-        </article>
+      </article>
     </div>
 
     <button id="history-toggle" type="button" aria-expanded="false" aria-controls="older-history">
@@ -635,12 +566,7 @@
         <p class="entry-desc">Selected for Wells Fargo's Leadership Development Program, collaborating with executive management across Enterprise Architecture, Application Development, and Technology Infrastructure.</p>
       </article>
     </div></div>
-  
-      <aside id="decision-panel" class="decision-panel" role="dialog" aria-modal="false" aria-labelledby="decision-panel-head" hidden>
-        <div class="decision-panel-bar"><span id="decision-panel-head" class="decision-eyebrow">&gt; git log --decisions</span><button type="button" class="decision-close" aria-label="Close decision">&times;</button></div>
-        <div class="decision-scroll"><article class="decision" id="decision-china-premium" hidden><h3 class="decision-title" tabindex="-1">Getting the unreachable internet into China</h3><p class="decision-sub">Decision · 2023 to 2025 · 2 min</p><div class="dsec"><h4>CONTEXT</h4><p>Multinationals with employees in mainland China couldn&#x27;t reliably reach the services the rest of their company ran on. Not just AI tools, but Google, SaaS platforms, and the everyday internet. The usual workarounds were expensive hardware, private circuits, or accepting a bad experience. Nobody had solved it as a service.</p></div><div class="dsec"><h4>OPTIONS</h4><p>Serve China from outside the country and accept the performance hit. Build our own in-country presence. Or find a partner whose network already had what we needed and extend our platform over it.</p></div><div class="dsec"><h4>DECISION</h4><p>Partner, and treat partner selection as the product decision rather than a procurement exercise. Reliability, service, and willingness to build with us mattered more than price, because the partner&#x27;s network would be the product. My role sat between Engineering and Product, which meant the job was less about picking from options than about keeping everyone in &quot;what if&quot; long enough to find one that worked.</p></div><div class="dsec"><h4>OUTCOME</h4><p>China Premium and Premium Plus shipped as products. Publicly, customers saw application access improve by about 6x and latency drop 40 to 60%, with an SLA covering availability, MTTR, latency, and packet loss.</p></div><div class="dsec dsec-last"><h4>WHAT I&#x27;D DO DIFFERENTLY</h4><p>It&#x27;s hard to plan a trail when nobody has walked it. What I&#x27;d change isn&#x27;t the route, it&#x27;s the pace at the start. I&#x27;d spend a few weeks on exploration that might have gone nowhere, and I&#x27;d put someone fluent in Mandarin on the team early. Things always come across differently through translation. We learned what we needed over time, but the right hire might have gotten us there sooner, or somewhere better.</p></div></article><article class="decision" id="decision-automation-over-headcount" hidden><h3 class="decision-title" tabindex="-1">Why we didn&#x27;t ask for more people</h3><p class="decision-sub">Decision · 2024 · 2 min</p><div class="dsec"><h4>CONTEXT</h4><p>Provisioning and project management were full of manual steps: data re-entered between systems, status chased by hand, errors that surfaced late. Volume was climbing toward 200 projects a year and the work wasn&#x27;t going to fit.</p></div><div class="dsec"><h4>OPTIONS</h4><p>Ask for more headcount. Push back on intake and take on less. Or keep working manually and accept slower delivery.</p></div><div class="dsec"><h4>DECISION</h4><p>Automate the seam between provisioning and project management instead. We built integrations between our systems and the project management tools, cut tool sprawl, and removed the handoffs where errors lived. That was my call, and it meant absorbing the build cost before the payoff showed up.</p></div><div class="dsec"><h4>OUTCOME</h4><p>Faster delivery, roughly 33% less manual effort, better collaboration across teams, and enough capacity to take on work in other areas. The following year the same organization handled ~300 projects.</p></div><div class="dsec dsec-last"><h4>WHAT I&#x27;D DO DIFFERENTLY</h4><p>We built it all without AI. With the tools I use now, we would have gotten there months sooner.</p></div></article><article class="decision" id="decision-platform-wellness" hidden><h3 class="decision-title" tabindex="-1">400 applications, 400 ways of working</h3><p class="decision-sub">Decision · 2020 to 2022 · 3 min</p><div class="dsec"><h4>CONTEXT</h4><p>Hundreds of applications across three CIO organizations, some early in cloud adoption, each living in its own ecosystem with its own tooling, reporting, and standards. What sat underneath ranged from home grown tooling to one of the largest Splunk environments in existence. Fragmentation like that shows up as cost, headcount, and whether anyone can support a system they didn&#x27;t build.</p></div><div class="dsec"><h4>OPTIONS</h4><p>Let each line of business keep its own stack and absorb the duplication. Mandate one standard from the center. Or agree on a framework first, then work out together what it means in each line of business.</p></div><div class="dsec"><h4>DECISION</h4><p>Start with the framework, not the tools. We built the Platform Wellness Program on NIST and standardized around prevention, detection, response, and recovery. That gave every lead across the major lines of business something to agree on before anyone argued about products. What works in Lending might not work in Retail or Corporate, so the framework set the bar and each organization worked out how to meet it.</p></div><div class="dsec"><h4>OUTCOME</h4><p>Site Reliability Engineering and Platform Operations stood up as new functions across 400 applications, observability advanced on Splunk, AppDynamics, Elastic, and Kafka, and availability aligned at 99.6%.</p></div><div class="dsec dsec-last"><h4>WHAT I&#x27;D DO DIFFERENTLY</h4><p>What I underestimated was cross-functional partnership. I believed a good decision would speak for itself, and sometimes it doesn&#x27;t. Sharing a sandbox means occasionally taking less sand, or building a different castle than the one you planned. I&#x27;d invest in those relationships earlier, before there&#x27;s anything to negotiate.</p></div></article></div>
-      </aside>
-      </div></section>
+  </div></section>
 
   <section id="expertise" class="alt"><div class="wrap">
     <div class="section-head reveal"><p class="eyebrow">cat skills.json</p><h2 class="section-title">Expertise</h2></div>
@@ -844,68 +770,6 @@
   // history toggle
   const tgl=document.getElementById('history-toggle'),older=document.getElementById('older-history');
   if(tgl&&older){tgl.addEventListener('click',()=>{const o=older.classList.toggle('open');tgl.classList.toggle('open',o);tgl.setAttribute('aria-expanded',o);tgl.querySelector('.label').innerHTML=o?'&nbsp;git log · collapse history':'&nbsp;git log --all &nbsp;·&nbsp; show full 20-year history';});}
-
-  /* ---- Decision panels ------------------------------------------------- */
-  (function(){
-    const panel=document.getElementById('decision-panel');
-    if(!panel) return;
-    const scroll=panel.querySelector('.decision-scroll');
-    const closeBtn=panel.querySelector('.decision-close');
-    const buttons=Array.from(document.querySelectorAll('.decision-btn'));
-    let lastTrigger=null;
-
-    function show(slug,push){
-      const art=document.getElementById('decision-'+slug);
-      if(!art) return false;
-      panel.querySelectorAll('.decision').forEach(a=>a.hidden=(a!==art));
-      panel.hidden=false;
-      document.body.classList.add('decision-open');
-      buttons.forEach(b=>b.setAttribute('aria-expanded',String(b.dataset.decision===slug)));
-      if(scroll) scroll.scrollTop=0;
-      const title=art.querySelector('.decision-title');
-      if(title) title.focus({preventScroll:true});
-      if(push && location.hash!=='#decision/'+slug)
-        history.pushState({decision:slug},'','#decision/'+slug);
-      return true;
-    }
-    function hide(push){
-      if(panel.hidden) return;
-      panel.hidden=true;
-      document.body.classList.remove('decision-open');
-      buttons.forEach(b=>b.setAttribute('aria-expanded','false'));
-      if(lastTrigger){ lastTrigger.focus(); lastTrigger=null; }
-      if(push && location.hash.indexOf('#decision/')===0)
-        history.pushState({},'',location.pathname+location.search);
-    }
-    buttons.forEach(b=>b.addEventListener('click',()=>{
-      if(!panel.hidden && b.getAttribute('aria-expanded')==='true'){ hide(true); return; }
-      lastTrigger=b; show(b.dataset.decision,true);
-    }));
-    if(closeBtn) closeBtn.addEventListener('click',()=>hide(true));
-    document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&!panel.hidden) hide(true); });
-
-    function fromHash(){
-      const m=/^#decision\/(.+)$/.exec(location.hash);
-      if(m){ if(!show(m[1],false)) hide(false); } else hide(false);
-    }
-    window.addEventListener('popstate',fromHash);
-    fromHash();
-
-    /* The lens dims roles that do not match; a cue inside a dimmed role has to
-       go with it, or the page offers a way into something it is telling you to
-       ignore. */
-    const sync=()=>{
-      document.querySelectorAll('.decision-cue').forEach(cue=>{
-        const entry=cue.closest('.entry');
-        const dim=entry&&document.body.classList.contains('filtering')&&!entry.classList.contains('match');
-        cue.style.opacity=dim?'.34':'';
-        cue.querySelectorAll('button').forEach(b=>{b.tabIndex=dim?-1:0;});
-      });
-    };
-    document.querySelectorAll('.lens-btn').forEach(b=>b.addEventListener('click',()=>setTimeout(sync,0)));
-    sync();
-  })();
-
 </script>
 </body>
 </html>
