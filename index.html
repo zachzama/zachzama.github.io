@@ -250,6 +250,8 @@
   body.lens-data  .entry-bullets li.hit{background:linear-gradient(90deg,var(--data-tint),transparent 78%);box-shadow:inset 3px 0 0 var(--data);}
 
   #history-toggle{font-family:var(--font-mono);font-size:13px;color:var(--accent-deep);background:var(--accent-tint);border:1px solid rgba(91,84,230,.28);border-radius:10px;padding:14px 20px;cursor:pointer;margin-top:20px;width:100%;display:flex;align-items:center;justify-content:center;gap:10px;transition:.2s;font-weight:500;letter-spacing:.01em;}
+    /* The command prefix is context; the bold half is the thing you click. */
+  #history-toggle .ht-do{font-weight:700;}
   #history-toggle:hover{background:#E1DFFA;border-color:var(--accent);transform:translateY(-1px);}
   #history-toggle::before{content:'❯';color:var(--prompt);}
   #history-toggle .chev{transition:transform .3s ease;animation:chevbob 2.2s ease-in-out infinite;}
@@ -715,7 +717,7 @@
     </div>
 
     <button id="history-toggle" type="button" aria-expanded="false" aria-controls="older-history">
-      <span class="label">&nbsp;git log --all &nbsp;·&nbsp; show full 20-year history</span><span class="chev">⌄</span>
+      <span class="label">&nbsp;git log --all &nbsp;·&nbsp; <b class="ht-do">show full 20-year history</b></span><span class="chev">⌄</span>
     </button>
     <div id="older-history"><div class="timeline">
       <article class="entry" data-tags="infra lead">
@@ -1024,7 +1026,7 @@ connected inbound
 
   // history toggle
   const tgl=document.getElementById('history-toggle'),older=document.getElementById('older-history');
-  if(tgl&&older){tgl.addEventListener('click',()=>{const o=older.classList.toggle('open');tgl.classList.toggle('open',o);tgl.setAttribute('aria-expanded',o);tgl.querySelector('.label').innerHTML=o?'&nbsp;git log · collapse history':'&nbsp;git log --all &nbsp;·&nbsp; show full 20-year history';});}
+  if(tgl&&older){tgl.addEventListener('click',()=>{const o=older.classList.toggle('open');tgl.classList.toggle('open',o);tgl.setAttribute('aria-expanded',o);tgl.querySelector('.label').innerHTML=o?'&nbsp;git log · <b class="ht-do">collapse history</b>':'&nbsp;git log --all &nbsp;·&nbsp; <b class="ht-do">show full 20-year history</b>';});}
 
   // ---- decision panels ----
   // Each role owns its own pair of panes, so the write-up that opens is always
