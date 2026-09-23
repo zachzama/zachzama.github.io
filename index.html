@@ -79,7 +79,7 @@
   .navlinks a{font-size:13px;text-decoration:none;color:var(--slate);font-weight:500;padding-bottom:3px;border-bottom:1px solid transparent;transition:.2s;}
   .navlinks a:hover{color:var(--ink);border-color:var(--accent);}
   .navlinks a.active{color:var(--ink);border-color:var(--accent);}
-  .dl-btn{font-family:var(--font-mono);font-size:12px;font-weight:500;cursor:pointer;color:var(--accent-deep);background:var(--accent-tint);border:1px solid rgba(91,84,230,.25);border-radius:100px;padding:6px 14px;transition:.2s;}
+  .dl-btn{text-decoration:none;display:inline-block;font-family:var(--font-mono);font-size:12px;font-weight:500;cursor:pointer;color:var(--accent-deep);background:var(--accent-tint);border:1px solid rgba(91,84,230,.25);border-radius:100px;padding:6px 14px;transition:.2s;}
   .dl-btn:hover{background:var(--accent);color:#fff;border-color:transparent;}
   .nav-contact{font-family:var(--font-mono);font-size:12px;font-weight:500;cursor:pointer;color:var(--slate);background:none;border:1px solid var(--hairline-strong);border-radius:100px;padding:6px 14px;transition:.2s;}
   .nav-contact:hover{color:var(--ink);border-color:var(--accent);}
@@ -630,7 +630,7 @@
       <li><a href="#projects" data-nav="projects">Projects</a></li>
       <li><a href="#education" data-nav="education">Education</a></li>
       <li><button type="button" class="nav-contact copy-email" data-email="zachzama@gmail.com"><span class="ce-label">Contact</span></button></li>
-      <li><button type="button" class="dl-btn" onclick="window.print()" title="Save or print a clean PDF version">↓ PDF</button></li>
+      <li><a class="dl-btn" href="Zachary-Zamarripa-Resume.pdf" download title="Download a three-page PDF resume">↓ PDF</a></li>
     </ul>
   </div></nav>
 
@@ -655,10 +655,10 @@
         </div>
 
         <div class="slo-grid">
-          <div class="slo"><div class="slo-num"><span class="counter" data-target="300" data-suffix="+">0</span></div><div class="slo-label">Projects delivered · 2025</div></div>
-          <div class="slo"><div class="slo-num"><span class="counter" data-target="13">0</span></div><div class="slo-label">TPM/Engineers led globally · 2026</div></div>
-          <div class="slo"><div class="slo-num"><span class="counter" data-target="33" data-suffix="%" data-prefix="+">0%</span></div><div class="slo-label">Team efficiency · 2025</div></div>
-          <div class="slo"><div class="slo-num"><span class="counter" data-target="400">0</span></div><div class="slo-label">Apps under SRE scope · 2022</div></div>
+          <div class="slo"><div class="slo-num"><span class="counter" data-target="300" data-suffix="+">300+</span></div><div class="slo-label">Projects delivered · 2025</div></div>
+          <div class="slo"><div class="slo-num"><span class="counter" data-target="13">13</span></div><div class="slo-label">TPM/Engineers led globally · 2026</div></div>
+          <div class="slo"><div class="slo-num"><span class="counter" data-target="33" data-suffix="%" data-prefix="+">+33%</span></div><div class="slo-label">Team efficiency · 2025</div></div>
+          <div class="slo"><div class="slo-num"><span class="counter" data-target="400">400</span></div><div class="slo-label">Apps under SRE scope · 2022</div></div>
         </div>
       </div>
     </div>
@@ -872,6 +872,18 @@ connected inbound
   function animateCounter(el){const t=parseFloat(el.dataset.target),d=parseInt(el.dataset.decimal||'0'),s=el.dataset.suffix||'',pre=el.dataset.prefix||'';if(prefersReduced){el.textContent=pre+t.toFixed(d)+s;return;}const dur=1200,st=performance.now();function tick(n){const p=Math.min(1,(n-st)/dur),e=1-Math.pow(1-p,3);el.textContent=pre+(t*e).toFixed(d)+s;if(p<1)requestAnimationFrame(tick);}requestAnimationFrame(tick);}
   const sio=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){animateCounter(e.target);sio.unobserve(e.target);}});},{threshold:.4});
   document.querySelectorAll('.counter').forEach(c=>sio.observe(c));
+  // The figures are in the markup, so they are right before this script runs,
+  // right if it never runs, and right with JavaScript off. The count animates
+  // up to a number that is already there rather than supplying it. Printing
+  // finishes any count still in flight first: a page caught mid-animation
+  // printed "245+" where it should have said "300+", which is worse than a
+  // visible zero because nobody would question it.
+  addEventListener('beforeprint',function(){
+    document.querySelectorAll('.counter').forEach(function(el){
+      const t=parseFloat(el.dataset.target),d=parseInt(el.dataset.decimal||'0');
+      el.textContent=(el.dataset.prefix||'')+t.toFixed(d)+(el.dataset.suffix||'');
+    });
+  });
 
   // ---- terminal typing sequence ----
   const termBody=document.getElementById('term-body');
