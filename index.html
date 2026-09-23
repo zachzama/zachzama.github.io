@@ -175,6 +175,18 @@
   /* timeline */
   .timeline{position:relative;padding-left:32px;}
   .timeline::before{content:'';position:absolute;left:5px;top:29px;bottom:6px;width:1px;background:var(--hairline-strong);}
+  /* The hairline above is the track; this is how far the reader has come.
+     It fills to a line held at 45% of the viewport rather than to the top of
+     the screen, so the spine meets the role being read rather than running
+     ahead of it. Motion is the only thing it adds - nothing here is needed to
+     understand the page, so it goes away entirely under reduced motion. */
+  .timeline{--rail:0;}
+  .timeline::after{content:'';position:absolute;left:5px;top:29px;width:1px;
+    height:calc((100% - 35px) * var(--rail));background:var(--accent);opacity:.55;
+    transition:height .12s linear;}
+  .entry.passed .entry-dot{border-color:var(--accent);}
+  @media(prefers-reduced-motion:reduce){.timeline::after{display:none;}}
+  @media print{.timeline::after{display:none!important;}}
   .entry{position:relative;padding-bottom:46px;transition:opacity .4s ease,filter .4s ease;}
   .entry:last-child{padding-bottom:0;}
   /* The two Zscaler roles are one continuous scope - same team, same remit,
@@ -1135,6 +1147,30 @@ connected inbound
       const i=swaps.findIndex(s=>s.dataset.swap===want);
       if(i>-1)window.addEventListener('load',()=>open(i,{scroll:true,focus:false}),{once:true});
     }
+  })();
+
+  // ---- the rail fills as you read ----
+  (function(){
+    const tls=[...document.querySelectorAll('.timeline')];
+    if(!tls.length||prefersReduced)return;
+    let queued=false;
+    function paint(){
+      queued=false;
+      const mark=window.innerHeight*0.45;
+      tls.forEach(tl=>{
+        const r=tl.getBoundingClientRect();
+        tl.style.setProperty('--rail',Math.max(0,Math.min(1,(mark-r.top)/r.height)));
+        tl.querySelectorAll('.entry').forEach(e=>{
+          e.classList.toggle('passed',e.getBoundingClientRect().top<mark);
+        });
+      });
+    }
+    // Coalesced into a frame: scroll fires far more often than the page can
+    // paint, and this reads layout on every call.
+    function onScroll(){if(!queued){queued=true;requestAnimationFrame(paint);}}
+    addEventListener('scroll',onScroll,{passive:true});
+    addEventListener('resize',onScroll);
+    paint();
   })();
 </script>
 </body>
