@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="canonical" href="https://zachzama.github.io/">
+<link rel="preload" href="fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/jetbrainsmono-latin.woff2" as="font" type="font/woff2" crossorigin>
 <meta name="robots" content="noindex, nofollow">
 <meta name="googlebot" content="noindex, nofollow">
 <meta property="og:image" content="https://zachzama.github.io/card.png">
@@ -347,6 +351,11 @@
   .cta-link:hover{color:#fff;border-color:var(--prompt);}
   .cta-path{margin-top:26px;font-family:var(--font-mono);font-size:11.5px;color:#4A5261;letter-spacing:.02em;}
 
+  /* Visible only once focused, which is the whole point of it. */
+  .skip-link{position:absolute;left:-9999px;top:0;z-index:200;background:var(--ink);color:#fff;
+    font-family:var(--font-mono);font-size:12px;padding:10px 16px;border-radius:0 0 8px 0;}
+  .skip-link:focus{left:0;}
+  @media print{.skip-link{display:none!important;}}
   footer.page-footer{padding:44px 0 60px;text-align:center;font-family:var(--font-mono);font-size:12px;color:var(--slate-light);}
   /* Claims, not decoration: each one is checkable by opening the network tab.
      No byte count - a figure on the page drifts the moment the page grows and
@@ -583,8 +592,24 @@
     .dswap-inner{width:auto!important;}
   }
 </style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "Person",
+ "name": "Zachary Zamarripa",
+ "jobTitle": "Director of Technical Program Management, Reliability Engineering",
+ "url": "https://zachzama.github.io/",
+ "description": "Technical Program Management and Reliability Engineering leader with twenty years in infrastructure, from building data centers at Wells Fargo to leading ~300 global infrastructure projects a year at Zscaler.",
+ "worksFor": {"@type": "Organization", "name": "Zscaler"},
+ "alumniOf": {"@type": "CollegeOrUniversity", "name": "San Diego State University"},
+ "address": {"@type": "PostalAddress", "addressLocality": "Folsom", "addressRegion": "CA", "addressCountry": "US"},
+ "knowsAbout": ["Technical Program Management","Site Reliability Engineering","Data Center Architecture","Observability","Capacity Planning","Platform Operations","Incident and Problem Management","Vendor and Partner Management"],
+ "sameAs": ["https://www.linkedin.com/in/zachary-zamarripa-1599653","https://github.com/zachzama"]
+}
+</script>
 </head>
 <body>
+<a class="skip-link" href="#experience">Skip to experience</a>
   <nav class="topnav"><div class="topnav-inner">
     <a class="brand" href="#top">zamarripa --role=director</a>
     <ul class="navlinks">
