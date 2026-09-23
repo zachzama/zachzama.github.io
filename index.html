@@ -344,6 +344,11 @@
   .cta-path{margin-top:26px;font-family:var(--font-mono);font-size:11.5px;color:#4A5261;letter-spacing:.02em;}
 
   footer.page-footer{padding:44px 0 60px;text-align:center;font-family:var(--font-mono);font-size:12px;color:var(--slate-light);}
+  /* Claims, not decoration: each one is checkable by opening the network tab.
+     No byte count - a figure on the page drifts the moment the page grows and
+     nothing here would catch it. */
+  .footer-build{display:block;margin-top:9px;font-size:10.5px;letter-spacing:.04em;
+    color:var(--hairline-strong);}
 
   /* ---------- mobile: tighten vertical rhythm ---------- */
   @media(max-width:640px){
@@ -434,6 +439,7 @@
     .cta-link{color:#222!important;border:none!important;}
     .cta-path{color:#888!important;margin-top:8px;}
     footer.page-footer{padding:12px 0 0;color:#888!important;}
+    .footer-build{display:none!important;}
     a[href]::after{content:'';}
   }
 
@@ -544,6 +550,19 @@
      promote. */
   .dsec-focus{border-left:2px solid var(--hairline-strong);padding-left:18px;}
   .dsec-focus p{font-style:italic;}
+
+  /* The project card swaps exactly as a role does, gutter and all: nothing in
+     the pane paints a background, so the 48px offset is invisible here. The
+     swap sits inside a plain block rather than being the grid item itself. */
+  .proj-feature{grid-column:1 / -1;}
+  .ftrans{background:var(--term-bg);border-radius:10px;padding:16px 18px;overflow-x:auto;
+    border:1px solid rgba(255,255,255,.07);}
+  .ftrans pre{font-family:var(--font-mono);font-size:11.5px;line-height:1.62;color:#C9D4E2;
+    margin:0;white-space:pre;}
+  .ftrans-cap{font-family:var(--font-mono);font-size:10.5px;color:var(--slate-light);
+    margin-top:10px;line-height:1.55;max-width:62ch;}
+  @media(max-width:860px){.ftrans pre{font-size:10px;}}
+  @media print{.ftrans,.ftrans-cap{display:none!important;}}
   /* No room for a peek on a phone: the decision replaces the role outright. */
   @media(max-width:860px){
     .dswap.open .dswap-role{display:none;}
@@ -618,7 +637,7 @@
   <section id="experience"><div class="wrap">
     <div class="section-head reveal"><p class="eyebrow">git log --oneline</p><h2 class="section-title">Experience</h2></div>
     <div class="timeline">
-      <div class="dswap" data-decision="china-premium"><div class="dswap-track"><div class="dswap-pane dswap-role"><div class="dswap-inner"><article class="entry active" data-tags="infra lead data">
+      <div class="dswap" data-swap="china-premium" data-decision="china-premium"><div class="dswap-track"><div class="dswap-pane dswap-role"><div class="dswap-inner"><article class="entry active" data-tags="infra lead data">
         <div class="entry-dot"></div>
         <div class="entry-top"><h3 class="entry-role">Director of Technical Program Management, Reliability Engineering <span class="active-tag">HEAD</span></h3><span class="entry-meta">09/2024 — Present</span></div>
         <div class="entry-company"><span class="co-chip zs">ZS</span><b>Zscaler</b> · San Jose (Folsom Remote), CA</div>
@@ -630,7 +649,7 @@
           <li data-tags="data">Created executive dashboards and operational reporting in Looker Studio to improve decision-making and program visibility.</li>
         </ul>
       <p class="dcue" data-tags="infra lead data"><button type="button" class="dcue-btn" data-open="china-premium" aria-expanded="false" aria-controls="decision-china-premium"><b class="dcue-tag">Key decision explained</b><span class="dcue-title">Getting the unreachable internet into China</span><span class="dcue-meta">2023 to 2025 · 2 min</span><span class="dcue-arrow" aria-hidden="true">&rarr;</span></button></p></article></div></div><article class="dswap-pane dpanel" id="decision-china-premium" role="region" aria-label="Decision write-up" hidden><div class="dpanel-crumb"><button type="button" class="dpanel-back" data-close aria-label="Back to role">&larr;</button><span class="co-chip zs">ZS</span><span class="dpanel-role">Director of Technical Program Management</span><span class="dpanel-sep">&rsaquo;</span><span class="dpanel-now">Decision</span><span class="dpanel-nav"><span class="of">1 / 3</span><button type="button" data-step="-1" aria-label="Previous decision">&larr;</button><button type="button" data-step="1" aria-label="Next decision">&rarr;</button></span></div><h3 class="dpanel-title" tabindex="-1">Getting the unreachable internet into China</h3><p class="dpanel-meta">Decision · 2023 to 2025 · 2 min</p><div class="dsec" style="--i:0"><h4>CONTEXT</h4><p>Multinationals with employees in mainland China couldn&#x27;t reliably reach the services the rest of their company ran on. Not just AI tools, but Google, SaaS platforms, and the everyday internet. The usual workarounds were expensive hardware, private circuits, or accepting a bad experience. Nobody had solved it as a service.</p></div><div class="dsec" style="--i:1"><h4>OPTIONS</h4><p>Serve China from outside the country and accept the performance hit. Build our own in-country presence. Or find a partner whose network already had what we needed and extend our platform over it.</p></div><div class="dsec dsec-focus" style="--i:2"><h4>DECISION</h4><p>Partner, and treat partner selection as the product decision rather than a procurement exercise. Reliability, service, and willingness to build with us mattered more than price, because the partner&#x27;s network would be the product. My role sat between Engineering and Product, which meant the job was less about picking from options than about keeping everyone in &quot;what if&quot; long enough to find one that worked.</p></div><div class="dsec" style="--i:3"><h4>OUTCOME</h4><p>China Premium and Premium Plus shipped as products. Publicly, customers saw application access improve by about 6x and latency drop 40 to 60%, with an SLA covering availability, MTTR, latency, and packet loss.</p></div><div class="dsec dsec-last" style="--i:4"><h4>WHAT I&#x27;D DO DIFFERENTLY</h4><p>It&#x27;s hard to plan a trail when nobody has walked it. What I&#x27;d change isn&#x27;t the route, it&#x27;s the pace at the start. I&#x27;d spend a few weeks on exploration that might have gone nowhere, and I&#x27;d put someone fluent in Mandarin on the team early. Things always come across differently through translation. We learned what we needed over time, but the right hire might have gotten us there sooner, or somewhere better.</p></div></article></div></div>
-      <div class="dswap" data-decision="automation-over-headcount"><div class="dswap-track"><div class="dswap-pane dswap-role"><div class="dswap-inner"><article class="entry entry-cont" data-tags="infra lead">
+      <div class="dswap" data-swap="automation-over-headcount" data-decision="automation-over-headcount"><div class="dswap-track"><div class="dswap-pane dswap-role"><div class="dswap-inner"><article class="entry entry-cont" data-tags="infra lead">
         <div class="entry-dot"></div>
         <div class="entry-top"><h3 class="entry-role">Senior Manager of Technical Program Management, Reliability Engineering <span class="active-tag dim">PROMOTION ↑</span></h3><span class="entry-meta">08/2022 — 09/2024</span></div>
         <div class="entry-company"><span class="co-chip zs">ZS</span><b>Zscaler</b> · San Jose (Folsom Remote), CA</div>
@@ -640,7 +659,7 @@
           <li data-tags="infra">Governed Federal Deployments and implemented IPv6 in the Federal Cloud while supporting a 250% increase in Fed PSEs.</li>
         </ul>
       <p class="dcue" data-tags="infra lead"><button type="button" class="dcue-btn" data-open="automation-over-headcount" aria-expanded="false" aria-controls="decision-automation-over-headcount"><b class="dcue-tag">Key decision explained</b><span class="dcue-title">Why the team grew slower than the work</span><span class="dcue-meta">2024 · 2 min</span><span class="dcue-arrow" aria-hidden="true">&rarr;</span></button></p></article></div></div><article class="dswap-pane dpanel" id="decision-automation-over-headcount" role="region" aria-label="Decision write-up" hidden><div class="dpanel-crumb"><button type="button" class="dpanel-back" data-close aria-label="Back to role">&larr;</button><span class="co-chip zs">ZS</span><span class="dpanel-role">Senior Manager of Technical Program Management</span><span class="dpanel-sep">&rsaquo;</span><span class="dpanel-now">Decision</span><span class="dpanel-nav"><span class="of">2 / 3</span><button type="button" data-step="-1" aria-label="Previous decision">&larr;</button><button type="button" data-step="1" aria-label="Next decision">&rarr;</button></span></div><h3 class="dpanel-title" tabindex="-1">Why the team grew slower than the work</h3><p class="dpanel-meta">Decision · 2024 · 2 min</p><div class="dsec" style="--i:0"><h4>CONTEXT</h4><p>Provisioning and project management were full of manual steps: data re-entered between systems, status chased by hand, errors that surfaced late. Volume was climbing toward 200 projects a year. The team had already grown from four to ten to stand the function up, and the obvious next move was to keep growing it at the rate the work was growing.</p></div><div class="dsec" style="--i:1"><h4>OPTIONS</h4><p>Keep hiring in proportion to volume. Push back on intake and take on less. Or hold the team closer to its size and automate the seam between provisioning and project management, absorbing the build cost before any of it paid off.</p></div><div class="dsec" style="--i:2"><h4>DECISION</h4><p>Automate the seam. We built integrations between our systems and the project management tools, Salesforce, Asana and Jira, on Python ETL running in Cloud Functions against BigQuery, cut tool sprawl, and removed the handoffs where errors lived. That was my call, and it meant spending the team&#x27;s scarcest capacity on tooling while the backlog in front of us was still growing.</p></div><div class="dsec dsec-focus" style="--i:3"><h4>OUTCOME</h4><p>Faster delivery, roughly 33% less manual reporting and repetitive work, better collaboration across teams, and enough capacity to take on work in other areas. The following year the same organization absorbed ~300 projects, a 50% increase in volume, on a team that went from ten to thirteen rather than doubling.</p></div><div class="dsec dsec-last" style="--i:4"><h4>WHAT I&#x27;D DO DIFFERENTLY</h4><p>We built it all without AI. With the tools I use now, we would have gotten there months sooner.</p></div></article></div></div>
-      <div class="dswap" data-decision="platform-wellness"><div class="dswap-track"><div class="dswap-pane dswap-role"><div class="dswap-inner"><article class="entry" data-tags="infra lead">
+      <div class="dswap" data-swap="platform-wellness" data-decision="platform-wellness"><div class="dswap-track"><div class="dswap-pane dswap-role"><div class="dswap-inner"><article class="entry" data-tags="infra lead">
         <div class="entry-dot"></div>
         <div class="entry-top"><h3 class="entry-role">VP, Lead of Program Management / Strategy &amp; Operations <span class="active-tag wf">GROUP LEAD</span></h3><span class="entry-meta">03/2020 — 08/2022</span></div>
         <div class="entry-company"><span class="co-chip wf">WF</span><b>Wells Fargo</b> · Folsom (Remote), CA</div>
@@ -732,7 +751,25 @@
   <section id="projects"><div class="wrap">
     <div class="section-head reveal"><p class="eyebrow">ls initiatives/</p><h2 class="section-title">Projects</h2></div>
     <div class="project-grid reveal">
-      <div class="project-card feature" data-tags="infra data"><div class="project-date">2026</div><h3 class="project-title">FaultOne <span class="proj-pill">personal</span></h3><p class="project-desc">Single-file, dependency-free Python diagnostic that reads 58 sources of host state across physical link, kernel limits, transport behavior, and services, then ranks 203 findings by protocol layer, direction, and scope to name one root cause and its owner rather than a list of symptoms. Rules derived from analysis of 20+ monitoring platforms; verified with 2,000 tests, 416 seeded mutations, an equivalence harness, and ground-truth cases that pair a cause with its symptom to confirm the verdict names the cause. Runs in CI on Python 3.9–3.13 across Linux and Windows.</p><p class="proj-links"><a href="https://zachzama.github.io/FaultOne/" target="_blank" rel="noopener noreferrer">read nine example reports</a><a href="https://github.com/zachzama/FaultOne" target="_blank" rel="noopener noreferrer">github.com/zachzama/FaultOne</a></p></div>
+      <div class="proj-feature"><div class="dswap" data-swap="faultone-output"><div class="dswap-track"><div class="dswap-pane dswap-role"><div class="dswap-inner"><div class="project-card feature" data-tags="infra data"><div class="project-date">2026</div><h3 class="project-title">FaultOne <span class="proj-pill">personal</span></h3><p class="project-desc">Single-file, dependency-free Python diagnostic that reads 58 sources of host state across physical link, kernel limits, transport behavior, and services, then ranks 203 findings by protocol layer, direction, and scope to name one root cause and its owner rather than a list of symptoms. Rules derived from analysis of 20+ monitoring platforms; verified with 2,000 tests, 416 seeded mutations, an equivalence harness, and ground-truth cases that pair a cause with its symptom to confirm the verdict names the cause. Runs in CI on Python 3.9–3.13 across Linux and Windows.</p><p class="proj-links"><a href="https://zachzama.github.io/FaultOne/" target="_blank" rel="noopener noreferrer">read nine example reports</a><a href="https://github.com/zachzama/FaultOne" target="_blank" rel="noopener noreferrer">github.com/zachzama/FaultOne</a></p><p class="dcue" data-tags="infra data"><button type="button" class="dcue-btn" data-open="faultone-output" aria-expanded="false" aria-controls="panel-faultone-output"><b class="dcue-tag">Sample output</b><span class="dcue-title">What it prints when it finds a fault</span><span class="dcue-meta">19 lines &middot; 30 sec</span><span class="dcue-arrow" aria-hidden="true">&rarr;</span></button></p></div></div></div><div class="dswap-pane dpanel" id="panel-faultone-output" role="region" aria-label="FaultOne sample output" hidden><div class="dpanel-crumb"><button type="button" class="dpanel-back" data-close aria-label="Back to the project">&larr;</button><span class="dpanel-role">FaultOne</span><span class="dpanel-sep">&rsaquo;</span><span class="dpanel-now">Sample output</span></div><h3 class="dpanel-title" tabindex="-1">One fault named, and who owns it</h3><p class="dpanel-meta">python3 faultone.py --report</p><div class="ftrans"><pre>FaultOne 1.28.0 - Linux - python 3.9.6 - 2026-09-22T18:30:13-07:00
+target: 8.8.8.8    gateway: 10.0.1.1    path via traceroute
+        nothing here depends on that host - pass --target for a path you rely on
+
+========================================================================
+LIKELY ROOT CAUSE: No outbound internet from here, while clients are
+connected inbound
+  owner: this box&#x27;s egress policy, probably by design   confidence: medium (16 of 22 checks ran)
+  next: The network works in the direction a service needs: clients are
+  reaching this box right now. What is missing is outbound internet
+  access, which on a server is usually deliberate. Check the egress
+  rules and whether this box is meant to reach the internet at all
+  before escalating anywhere.
+========================================================================
+
+  clients in ok  &lt;--&gt;  this box degraded  &lt;--&gt;  connects out to degraded
+
+  clients PASS   link PASS   address PASS   gateway PASS   internet WARN
+  dns PASS   mtu -   ports PASS</pre></div><p class="ftrans-cap">Generated from the example corpus, never a live run: a report maps the network it was taken on, so a demo from a real machine would publish its addressing.</p></div></div></div></div>
       <div class="project-card" data-tags="lead"><div class="project-date">2025 — Present</div><h3 class="project-title">Zscaler Managed Business Continuity</h3><p class="project-desc">Go-to-market development, program management, and operations of a new product addressing large-scale enterprise outages via an isolated Zscaler solution hosted on-premise with a vendor.</p><p class="proj-links"><a href="https://www.zscaler.com/products-and-solutions/business-continuity-cloud" target="_blank" rel="noopener noreferrer">zscaler.com &middot; Business Continuity Cloud</a></p></div>
       <div class="project-card" data-tags="lead"><div class="project-date">2023 — 2025</div><h3 class="project-title">Zscaler China Premium &amp; Premium Plus</h3><p class="project-desc">Go-to-market development, program management, and operations of a new product in China providing premium connectivity and access to AI applications (ChatGPT, Gemini &amp; Claude).</p><p class="proj-links"><a href="https://www.zscaler.com/industries/zscaler-china-premium-access" target="_blank" rel="noopener noreferrer">zscaler.com &middot; China Premium Access</a></p></div>
     </div>
@@ -782,7 +819,7 @@
     </div>
   </div></section>
 
-  <footer class="page-footer">❯ zachary zamarripa --status=operational · LAST UPDATED SEP 2026</footer>
+  <footer class="page-footer">❯ zachary zamarripa --status=operational · LAST UPDATED SEP 2026<span class="footer-build">no trackers · no cookies · no third-party requests · one file, no build step</span></footer>
 
 <script>
   const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-visible');io.unobserve(e.target);}});},{threshold:.12});
@@ -929,6 +966,11 @@
   (function(){
     const swaps=[...document.querySelectorAll('.dswap')];
     if(!swaps.length)return;
+    // Every swap opens and closes alike, but prev/next walks the decisions
+    // alone. The sample-output panel shares the mechanism without joining the
+    // sequence, or the last write-up's "next" would step into it and the
+    // 1 / 3 beside it would be a lie.
+    const seq=swaps.filter(sw=>sw.dataset.decision);
     let openIdx=-1;
 
     function pin(sw){
@@ -999,14 +1041,16 @@
       }));
       cue.setAttribute('aria-expanded','true');
       openIdx=i;
-      setHash(sw.dataset.decision);
+      setHash(sw);
       if(focus)setTimeout(()=>panel.querySelector('.dpanel-title').focus({preventScroll:true}),prefersReduced?0:120);
     }
 
-    function setHash(slug){
+    function setHash(sw){
       // replaceState, not a hash assignment: the link stays shareable without
       // stacking a history entry on every open and close.
-      const url=slug?'#decision/'+slug:location.pathname+location.search;
+      const url=sw ? (sw.dataset.decision ? '#decision/'+sw.dataset.decision
+                                          : '#'+sw.dataset.swap)
+                   : location.pathname+location.search;
       history.replaceState(null,'',url);
     }
 
@@ -1021,14 +1065,12 @@
       peek.setAttribute('aria-label','Back to '+sw.querySelector('.dpanel-role').textContent.trim());
       peek.addEventListener('click',()=>close(i));
       sw.querySelector('.dswap-role').appendChild(peek);
+      const k=seq.indexOf(sw);
       sw.querySelectorAll('.dpanel-nav button[data-step]').forEach(b=>{
-        b.addEventListener('click',()=>{
-          const t=i+parseInt(b.dataset.step,10);
-          if(t<0||t>=swaps.length)return;
-          open(t,{scroll:true});
-        });
-        const t=i+parseInt(b.dataset.step,10);
-        if(t<0||t>=swaps.length)b.disabled=true;
+        const t=k+parseInt(b.dataset.step,10);
+        const target=(k>-1&&t>=0&&t<seq.length)?swaps.indexOf(seq[t]):-1;
+        if(target<0){b.disabled=true;return;}
+        b.addEventListener('click',()=>open(target,{scroll:true}));
       });
     });
 
@@ -1044,9 +1086,9 @@
       if(lens!=='all'&&!tags.includes(lens))close(openIdx,{restoreFocus:false});
     }));
 
-    const m=location.hash.match(/^#decision\/(.+)$/);
-    if(m){
-      const i=swaps.findIndex(s=>s.dataset.decision===m[1]);
+    const want=location.hash.replace(/^#(?:decision\/)?/,'');
+    if(want){
+      const i=swaps.findIndex(s=>s.dataset.swap===want);
       if(i>-1)window.addEventListener('load',()=>open(i,{scroll:true,focus:false}),{once:true});
     }
   })();
